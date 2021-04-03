@@ -1,0 +1,981 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Chapter1}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{chapter-1-finding-words-phrases-names-and-concepts}{%
+\section{Chapter 1: Finding words, phrases, names and
+concepts}\label{chapter-1-finding-words-phrases-names-and-concepts}}
+
+This chapter will introduce you to the basics of text processing with
+spaCy. You'll learn about the data structures, how to work with
+statistical models, and how to use them to predict linguistic features
+in your text.
+
+\hypertarget{getting-started}{%
+\subsubsection{1.1 Getting Started}\label{getting-started}}
+
+Let's get started and try out spaCy! You'll be able to try out some of
+the 55+ available languages.
+
+\begin{itemize}
+\tightlist
+\item
+  Import the English class from spacy.lang.en and create the
+  \texttt{nlp} object.
+\item
+  Let's create a \texttt{doc} and print its \texttt{text}.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{c+c1}{\PYZsh{} Import the English language class}
+        \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{en} \PY{k}{import} \PY{n}{English}
+        
+        \PY{c+c1}{\PYZsh{} Create the nlp object}
+        \PY{n}{nlp} \PY{o}{=} \PY{n}{English}\PY{p}{(}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Process a text}
+        \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{This is a sentence.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Print the document text}
+        
+        \PY{c+c1}{\PYZsh{} .text() näyttää alkuperäisen docin, }
+        \PY{c+c1}{\PYZsh{} eli tässä tapauksessa lauseen}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{doc}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+This is a sentence.
+
+    \end{Verbatim}
+
+    \hypertarget{exercise-1.1-repeat-chapter-1.1-with-finnish.}{%
+\paragraph{Exercise 1.1: Repeat chapter 1.1 with
+Finnish.}\label{exercise-1.1-repeat-chapter-1.1-with-finnish.}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{c+c1}{\PYZsh{} Exercise 1.1:}
+        \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+        \PY{c+c1}{\PYZsh{} Repeat chapter 1.1 with Finnish.}
+        \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{fi} \PY{k}{import} \PY{n}{Finnish}
+        
+        \PY{n}{nlp} \PY{o}{=} \PY{n}{Finnish}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n}{doc\PYZus{}f} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Tämä on lause.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{doc\PYZus{}f}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Tämä on lause.
+
+    \end{Verbatim}
+
+    \hypertarget{documents-spans-and-tokens}{%
+\subsubsection{1.2 Documents, spans and
+tokens}\label{documents-spans-and-tokens}}
+
+When you call \texttt{nlp} on a string, spaCy first tokenizes the text
+and creates a document object. In this exercise, you'll learn more about
+the \texttt{Doc}, as well as its views \texttt{Token} and \texttt{Span}.
+
+\textbf{Step 1}
+
+\begin{itemize}
+\tightlist
+\item
+  Let's import the English language class and create the \texttt{nlp}
+  object.
+\item
+  Process the text and instantiate a Doc object in the variable doc.
+\item
+  Select the first token of the Doc and print its text.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{c+c1}{\PYZsh{} Import the English language class and create the nlp object}
+        \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{en} \PY{k}{import} \PY{n}{English}
+        
+        \PY{n}{nlp} \PY{o}{=} \PY{n}{English}\PY{p}{(}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Process the text}
+        \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{I like tree kangaroos and narwhals.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Select the first token}
+        \PY{n}{first\PYZus{}token} \PY{o}{=} \PY{n}{doc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+        
+        \PY{c+c1}{\PYZsh{} Print the first token\PYZsq{}s text}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{first\PYZus{}token}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+I
+
+    \end{Verbatim}
+
+    \textbf{Step 2}
+
+\begin{itemize}
+\tightlist
+\item
+  Import the English language class and create the nlp object.
+\item
+  Process the text and instantiate a Doc object in the variable doc.
+\item
+  Create a slice of the Doc for the tokens ``tree kangaroos'' and ``tree
+  kangaroos and narwhals''.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{c+c1}{\PYZsh{} Import the English language class and create the nlp object}
+        \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{en} \PY{k}{import} \PY{n}{English}
+        
+        \PY{n}{nlp} \PY{o}{=} \PY{n}{English}\PY{p}{(}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Process the text}
+        \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{I like tree kangaroos and narwhals.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} A slice of the Doc for \PYZdq{}tree kangaroos\PYZdq{}}
+        \PY{n}{tree\PYZus{}kangaroos} \PY{o}{=} \PY{n}{doc}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{:}\PY{l+m+mi}{4}\PY{p}{]}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{tree\PYZus{}kangaroos}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} A slice of the Doc for \PYZdq{}tree kangaroos and narwhals\PYZdq{} (without the \PYZdq{}.\PYZdq{})}
+        \PY{n}{tree\PYZus{}kangaroos\PYZus{}and\PYZus{}narwhals} \PY{o}{=} \PY{n}{doc}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{:}\PY{l+m+mi}{6}\PY{p}{]}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{tree\PYZus{}kangaroos\PYZus{}and\PYZus{}narwhals}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+tree kangaroos
+tree kangaroos and narwhals
+
+    \end{Verbatim}
+
+    \hypertarget{lexical-attributes}{%
+\subsubsection{1.3 Lexical attributes}\label{lexical-attributes}}
+
+In this example, you'll use spaCy's Doc and Token objects, and lexical
+attributes to find percentages in a text. You'll be looking for two
+subsequent tokens: a number and a percent sign.
+
+\begin{itemize}
+\tightlist
+\item
+  Use the like\_num token attribute to check whether a token in the doc
+  resembles a number.
+\item
+  Get the token following the current token in the document. The index
+  of the next token in the doc is token.i + 1.
+\item
+  Check whether the next token's text attribute is a percent sign
+  ''\%``.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{en} \PY{k}{import} \PY{n}{English}
+        
+        \PY{n}{nlp} \PY{o}{=} \PY{n}{English}\PY{p}{(}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Process the text}
+        \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{In 1990, more than 60}\PY{l+s+si}{\PYZpc{} o}\PY{l+s+s2}{f people in East Asia were in extreme poverty. }\PY{l+s+s2}{\PYZdq{}}
+            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Now less than 4}\PY{l+s+si}{\PYZpc{} a}\PY{l+s+s2}{re.}\PY{l+s+s2}{\PYZdq{}}
+        \PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Iterate over the tokens in the doc}
+        \PY{k}{for} \PY{n}{token} \PY{o+ow}{in} \PY{n}{doc}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} Check if the token resembles a number}
+            \PY{k}{if} \PY{n}{token}\PY{o}{.}\PY{n}{like\PYZus{}num}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} Get the next token in the document}
+                \PY{c+c1}{\PYZsh{} token.i + 1 saadaan seuraava tokeni tarkastelun kohteeksi}
+                \PY{n}{next\PYZus{}token} \PY{o}{=} \PY{n}{doc}\PY{p}{[}\PY{n}{token}\PY{o}{.}\PY{n}{i} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{]}
+                \PY{c+c1}{\PYZsh{} Check if the next token\PYZsq{}s text equals \PYZdq{}\PYZpc{}\PYZdq{}}
+                \PY{k}{if} \PY{n}{next\PYZus{}token}\PY{o}{.}\PY{n}{text} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+                    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Percentage found:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{token}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+                
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Percentage found: 60
+Percentage found: 4
+
+    \end{Verbatim}
+
+    \hypertarget{exercise-1.2-repeat-chapter-1.3-with-finnish.}{%
+\paragraph{Exercise 1.2: Repeat chapter 1.3 with
+Finnish.}\label{exercise-1.2-repeat-chapter-1.3-with-finnish.}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{c+c1}{\PYZsh{} Exercise 1.2:}
+         \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+         \PY{c+c1}{\PYZsh{} Repeat chapter 1.3 with Finnish.}
+         
+         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{fi} \PY{k}{import} \PY{n}{Finnish}
+         
+         \PY{n}{nlp} \PY{o}{=} \PY{n}{Finnish}\PY{p}{(}\PY{p}{)}
+         
+         \PY{n}{doc\PYZus{}f} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}
+         \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Vuonna 1990 yli 60}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{ Itä\PYZhy{}Aasian ihmisistä oli äärimmäisessä köyhyydessä.}\PY{l+s+s2}{\PYZdq{}}
+         \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Nykyään alle 4}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{. }\PY{l+s+s2}{\PYZdq{}}
+         \PY{p}{)}
+         
+         
+         \PY{n}{doc\PYZus{}f2}\PY{o}{=} \PY{n}{nlp}\PY{p}{(}
+         \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Yli puolet 60}\PY{l+s+si}{\PYZpc{} s}\PY{l+s+s2}{uomalaisista ajattelee, että lihan syömiseen suhtaudutaan tällä hetkellä liian tuomitsevasti.}\PY{l+s+s2}{\PYZdq{}}
+         \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Lähes yhtä moni 58}\PY{l+s+si}{\PYZpc{} s}\PY{l+s+s2}{uomalaisista kokee, että lihansyönnin vähentämiselle asetetaan yhteiskunnallisia ja sosiaalisia paineita.}\PY{l+s+s2}{\PYZdq{}}
+         \PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Etsitään prosenttimerkki suomen kielisen tekstin seasta yksikertaisen loopin avulla}
+         
+         \PY{c+c1}{\PYZsh{} Käydään läpi docin (tekstin) tokenit}
+         \PY{k}{for} \PY{n}{token} \PY{o+ow}{in} \PY{n}{doc\PYZus{}f2}\PY{p}{:}
+             \PY{c+c1}{\PYZsh{} Jos tokeni muistuttaa numeroa, otetaan se tarkasteluun}
+             \PY{k}{if} \PY{n}{token}\PY{o}{.}\PY{n}{like\PYZus{}num}\PY{p}{:}
+                 \PY{c+c1}{\PYZsh{} Seuraava tokeni saadaan token.i + 1:llä}
+                 \PY{n}{next\PYZus{}token} \PY{o}{=} \PY{n}{doc\PYZus{}f2}\PY{p}{[}\PY{n}{token}\PY{o}{.}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}
+                 \PY{c+c1}{\PYZsh{} Jos seuraava token on prosenttimerkki ...}
+                 \PY{c+c1}{\PYZsh{} ... olemme löytäneet prosenttiluvun teksistä}
+                 \PY{k}{if} \PY{n}{next\PYZus{}token}\PY{o}{.}\PY{n}{text} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+                     \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Prosenttiluku löytyi: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{token}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Prosenttiluku löytyi:  60
+Prosenttiluku löytyi:  58
+
+    \end{Verbatim}
+
+    \hypertarget{loading-models}{%
+\subsubsection{1.4 Loading Models}\label{loading-models}}
+
+Use spacy.load to load the small English model ``en\_core\_web\_sm''.
+Process the text and print the document text.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+         
+         \PY{c+c1}{\PYZsh{} Load the small English model}
+         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{text} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{It’s official: Apple is the first U.S. public company to reach a \PYZdl{}1 trillion market value}\PY{l+s+s2}{\PYZdq{}}
+         
+         \PY{c+c1}{\PYZsh{} Process the text}
+         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{n}{text}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Print the document text}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{doc}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+It’s official: Apple is the first U.S. public company to reach a \$1 trillion market value
+
+    \end{Verbatim}
+
+    \hypertarget{predicting-linquistic-annotations}{%
+\subsubsection{1.5 Predicting linquistic
+annotations}\label{predicting-linquistic-annotations}}
+
+You'll now get to try one of spaCy's pre-trained model packages and see
+its predictions in action. Feel free to try it out on your own text! To
+find out what a tag or label means, you can call spacy.explain in the
+loop. For example: spacy.explain(``PROPN'') or spacy.explain(``GPE'').
+
+\textbf{Part 1}
+
+\begin{itemize}
+\tightlist
+\item
+  Process the text with the nlp object and create a doc.
+\item
+  For each token, print the token text, the token's .pos\_
+  (part-of-speech tag) and the token's .dep\_ (dependency label).
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+         
+         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{text} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{It’s official: Apple is the first U.S. public company to reach a \PYZdl{}1 trillion market value}\PY{l+s+s2}{\PYZdq{}}
+         
+         \PY{c+c1}{\PYZsh{} Process the text}
+         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{n}{text}\PY{p}{)}
+         
+         \PY{k}{for} \PY{n}{token} \PY{o+ow}{in} \PY{n}{doc}\PY{p}{:}
+             \PY{c+c1}{\PYZsh{} Get the token text, part\PYZhy{}of\PYZhy{}speech tag and dependency label}
+             \PY{n}{token\PYZus{}text} \PY{o}{=} \PY{n}{token}\PY{o}{.}\PY{n}{text}
+             \PY{n}{token\PYZus{}pos} \PY{o}{=} \PY{n}{token}\PY{o}{.}\PY{n}{pos\PYZus{}}
+             \PY{n}{token\PYZus{}dep} \PY{o}{=} \PY{n}{token}\PY{o}{.}\PY{n}{dep\PYZus{}}
+             \PY{c+c1}{\PYZsh{} This is for formatting only}
+             \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}token\PYZus{}text:\PYZlt{}12\PYZcb{}}\PY{l+s+si}{\PYZob{}token\PYZus{}pos:\PYZlt{}10\PYZcb{}}\PY{l+s+si}{\PYZob{}token\PYZus{}dep:\PYZlt{}10\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+It          PRON      nsubj     
+’s          VERB      ccomp     
+official    ADJ       acomp     
+:           PUNCT     punct     
+Apple       PROPN     nsubj     
+is          AUX       ROOT      
+the         DET       det       
+first       ADJ       amod      
+U.S.        PROPN     nmod      
+public      ADJ       amod      
+company     NOUN      attr      
+to          PART      aux       
+reach       VERB      relcl     
+a           DET       det       
+\$           SYM       quantmod  
+1           NUM       compound  
+trillion    NUM       nummod    
+market      NOUN      compound  
+value       NOUN      dobj      
+
+    \end{Verbatim}
+
+    \hypertarget{exercise-1.3-print-explanations-for-propn-nsubj-and-quantmod.}{%
+\paragraph{Exercise 1.3: Print explanations for PROPN, nsubj and
+quantmod.}\label{exercise-1.3-print-explanations-for-propn-nsubj-and-quantmod.}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{c+c1}{\PYZsh{} Exercise 1.3:}
+         \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+         \PY{c+c1}{\PYZsh{} Print explanations for PROPN, nsubj and quantmod. }
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{spacy}\PY{o}{.}\PY{n}{explain}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{PROPN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{spacy}\PY{o}{.}\PY{n}{explain}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{nsubj}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{spacy}\PY{o}{.}\PY{n}{explain}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{quantmod}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+proper noun
+nominal subject
+modifier of quantifier
+
+    \end{Verbatim}
+
+    \textbf{Part 2}
+
+Process the text and create a doc object. Iterate over the doc.ents and
+print the entity text and label\_ attribute.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+         
+         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{text} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{It’s official: Apple is the first U.S. public company to reach a \PYZdl{}1 trillion market value}\PY{l+s+s2}{\PYZdq{}}
+         
+         \PY{c+c1}{\PYZsh{} Process the text}
+         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{n}{text}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Iterate over the predicted entities}
+         \PY{k}{for} \PY{n}{ent} \PY{o+ow}{in} \PY{n}{doc}\PY{o}{.}\PY{n}{ents}\PY{p}{:}
+             \PY{c+c1}{\PYZsh{} Print the entity text and its label}
+             \PY{n+nb}{print}\PY{p}{(}\PY{n}{ent}\PY{o}{.}\PY{n}{text}\PY{p}{,} \PY{n}{ent}\PY{o}{.}\PY{n}{label\PYZus{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Apple ORG
+first ORDINAL
+U.S. GPE
+\$1 trillion MONEY
+
+    \end{Verbatim}
+
+    \hypertarget{predicting-named-entities-in-context}{%
+\subsubsection{1.6 Predicting named entities in
+context}\label{predicting-named-entities-in-context}}
+
+Models are statistical and not always right. Whether their predictions
+are correct depends on the training data and the text you're processing.
+Let's take a look at an example.
+
+\begin{itemize}
+\tightlist
+\item
+  Process the text with the nlp object.
+\item
+  Iterate over the entities and print the entity text and label.
+\item
+  Looks like the model didn't predict ``iPhone X''. Create a span for
+  those tokens manually.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+         
+         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{text} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Upcoming iPhone X release date leaked as Apple reveals pre\PYZhy{}orders}\PY{l+s+s2}{\PYZdq{}}
+         
+         \PY{c+c1}{\PYZsh{} Process the text}
+         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{n}{text}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Iterate over the entities}
+         \PY{k}{for} \PY{n}{ent} \PY{o+ow}{in} \PY{n}{doc}\PY{o}{.}\PY{n}{ents}\PY{p}{:}
+             \PY{c+c1}{\PYZsh{} Print the entity text and label}
+             \PY{n+nb}{print}\PY{p}{(}\PY{n}{ent}\PY{o}{.}\PY{n}{text}\PY{p}{,} \PY{n}{ent}\PY{o}{.}\PY{n}{label\PYZus{}}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Get the span for \PYZdq{}iPhone X\PYZdq{}}
+         \PY{n}{iphone\PYZus{}x} \PY{o}{=} \PY{n}{doc}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{]}
+         
+         \PY{c+c1}{\PYZsh{} Print the span text}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Missing entity:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{iphone\PYZus{}x}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Apple ORG
+Missing entity: iPhone X
+
+    \end{Verbatim}
+
+    \hypertarget{using-the-matcher}{%
+\subsubsection{1.7 Using the matcher}\label{using-the-matcher}}
+
+Let's try spaCy's rule-based Matcher. You'll be using the example from
+the previous exercise and write a pattern that can match the phrase
+``iPhone X'' in the text.
+
+\begin{itemize}
+\tightlist
+\item
+  Import the Matcher from spacy.matcher.
+\item
+  Initialize it with the nlp object's shared vocab.
+\item
+  Create a pattern that matches the ``TEXT'' values of two tokens:
+  ``iPhone'' and ``X''.
+\item
+  Use the matcher.add method to add the pattern to the matcher.
+\item
+  Call the matcher on the doc and store the result in the variable
+  matches.
+\item
+  Iterate over the matches and get the matched span from the start to
+  the end index.
+\end{itemize}
+
+\hypertarget{exercise-1.4-write-matcher-for-iphone-followed-by-x.}{%
+\paragraph{Exercise 1.4: Write matcher for ``iPhone'' followed by
+``X''.}\label{exercise-1.4-write-matcher-for-iphone-followed-by-x.}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}33}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+         
+         \PY{c+c1}{\PYZsh{} Import the Matcher}
+         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{matcher} \PY{k}{import} \PY{n}{Matcher}
+         
+         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Upcoming iPhone X release date leaked as Apple reveals pre\PYZhy{}orders}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Initialize the Matcher with the shared vocabulary}
+         \PY{n}{matcher} \PY{o}{=} \PY{n}{Matcher}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Exercise 1.4: Write matcher for \PYZdq{}iPhone\PYZdq{} followed by \PYZdq{}X\PYZdq{}}
+         \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+         \PY{c+c1}{\PYZsh{} Create a pattern matching two tokens: \PYZdq{}iPhone\PYZdq{} and \PYZdq{}X\PYZdq{}}
+         \PY{n}{pattern} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{TEXT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{iPhone}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{TEXT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{X}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{]}\PY{p}{]}
+         
+         \PY{c+c1}{\PYZsh{} Add the pattern to the matcher}
+         \PY{n}{matcher}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{IPHONE\PYZus{}X\PYZus{}PATTERN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{pattern}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Use the matcher on the doc}
+         \PY{n}{matches} \PY{o}{=} \PY{n}{matcher}\PY{p}{(}\PY{n}{doc}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Matches:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{p}{[}\PY{n}{doc}\PY{p}{[}\PY{n}{start}\PY{p}{:}\PY{n}{end}\PY{p}{]}\PY{o}{.}\PY{n}{text} \PY{k}{for} \PY{n}{match\PYZus{}id}\PY{p}{,} \PY{n}{start}\PY{p}{,} \PY{n}{end} \PY{o+ow}{in} \PY{n}{matches}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Matches: ['iPhone X']
+
+    \end{Verbatim}
+
+    \hypertarget{writing-match-patterns}{%
+\subsubsection{1.8 Writing match
+patterns}\label{writing-match-patterns}}
+
+In this exercise, you'll practice writing more complex match patterns
+using different token attributes and operators.
+
+\textbf{Part 1}
+
+Write one pattern that only matches mentions of the full iOS versions:
+``iOS 7'', ``iOS 11'' and ``iOS 10''.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}34}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{matcher} \PY{k}{import} \PY{n}{Matcher}
+         
+         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{matcher} \PY{o}{=} \PY{n}{Matcher}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{p}{)}
+         
+         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{After making the iOS update you won}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{t notice a radical system\PYZhy{}wide }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{redesign: nothing like the aesthetic upheaval we got with iOS 7. Most of }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{iOS 11}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{s furniture remains the same as in iOS 10. But you will discover }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{some tweaks once you delve a little deeper.}\PY{l+s+s2}{\PYZdq{}}
+         \PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Write a pattern for full iOS versions (\PYZdq{}iOS 7\PYZdq{}, \PYZdq{}iOS 11\PYZdq{}, \PYZdq{}iOS 10\PYZdq{})}
+         \PY{n}{pattern} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{TEXT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{iOS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{IS\PYZus{}DIGIT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{k+kc}{True}\PY{p}{\PYZcb{}}\PY{p}{]}\PY{p}{]}
+         
+         \PY{c+c1}{\PYZsh{} Add the pattern to the matcher and apply the matcher to the doc}
+         \PY{n}{matcher}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{IOS\PYZus{}VERSION\PYZus{}PATTERN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{pattern}\PY{p}{)}
+         \PY{n}{matches} \PY{o}{=} \PY{n}{matcher}\PY{p}{(}\PY{n}{doc}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Total matches found:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{matches}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Iterate over the matches and print the span text}
+         \PY{k}{for} \PY{n}{match\PYZus{}id}\PY{p}{,} \PY{n}{start}\PY{p}{,} \PY{n}{end} \PY{o+ow}{in} \PY{n}{matches}\PY{p}{:}
+             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Match found:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{doc}\PY{p}{[}\PY{n}{start}\PY{p}{:}\PY{n}{end}\PY{p}{]}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Total matches found: 3
+Match found: iOS 7
+Match found: iOS 11
+Match found: iOS 10
+
+    \end{Verbatim}
+
+    \textbf{Part 2}
+
+Write one pattern that only matches forms of ``download'' (tokens with
+the lemma ``download''), followed by a token with the part-of-speech tag
+``PROPN'' (proper noun).
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}35}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{matcher} \PY{k}{import} \PY{n}{Matcher}
+         
+         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{matcher} \PY{o}{=} \PY{n}{Matcher}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{p}{)}
+         
+         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{i downloaded Fortnite on my laptop and can}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{t open the game at all. Help? }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{so when I was downloading Minecraft, I got the Windows version where it }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is the }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{.zip}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ folder and I used the default program to unpack it... do }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{I also need to download Winzip?}\PY{l+s+s2}{\PYZdq{}}
+         \PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Write a pattern that matches a form of \PYZdq{}download\PYZdq{} plus proper noun}
+         \PY{n}{pattern} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{LEMMA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{download}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{POS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{PROPN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{]}\PY{p}{]}
+         
+         \PY{c+c1}{\PYZsh{} Add the pattern to the matcher and apply the matcher to the doc}
+         \PY{n}{matcher}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DOWNLOAD\PYZus{}THINGS\PYZus{}PATTERN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{pattern}\PY{p}{)}
+         \PY{n}{matches} \PY{o}{=} \PY{n}{matcher}\PY{p}{(}\PY{n}{doc}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Total matches found:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{matches}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Iterate over the matches and print the span text}
+         \PY{k}{for} \PY{n}{match\PYZus{}id}\PY{p}{,} \PY{n}{start}\PY{p}{,} \PY{n}{end} \PY{o+ow}{in} \PY{n}{matches}\PY{p}{:}
+             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Match found:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{doc}\PY{p}{[}\PY{n}{start}\PY{p}{:}\PY{n}{end}\PY{p}{]}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Total matches found: 3
+Match found: downloaded Fortnite
+Match found: downloading Minecraft
+Match found: download Winzip
+
+    \end{Verbatim}
+
+    \hypertarget{exercise-1.5-write-matcher}{%
+\paragraph{Exercise 1.5: Write
+matcher}\label{exercise-1.5-write-matcher}}
+
+Write one pattern that matches adjectives (``ADJ'') followed by one or
+two ``NOUN''s (one noun and one optional noun).
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}39}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{matcher} \PY{k}{import} \PY{n}{Matcher}
+         
+         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{matcher} \PY{o}{=} \PY{n}{Matcher}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{p}{)}
+         
+         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Features of the app include a beautiful design, smart search, automatic }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{labels and optional voice responses.}\PY{l+s+s2}{\PYZdq{}}
+         \PY{p}{)}
+         
+         
+         \PY{c+c1}{\PYZsh{} Exercise 1.5: Write pattern and use matcher with pattern to find matches}
+         \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+         
+         \PY{c+c1}{\PYZsh{} Write a pattern for adjective plus one or two nouns}
+         \PY{n}{pattern} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{POS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ADJ}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{POS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NOUN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{POS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NOUN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OP}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{?}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{]}\PY{p}{]}
+         
+         \PY{c+c1}{\PYZsh{} Add the pattern to the matcher and apply the matcher to the doc}
+         \PY{n}{matcher}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ADJECTIVE\PYZus{}AND\PYZus{}NOUN(S)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{pattern}\PY{p}{)}
+         \PY{n}{matches} \PY{o}{=} \PY{n}{matcher}\PY{p}{(}\PY{n}{doc}\PY{p}{)}
+         
+         
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Total matches found:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{matches}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Iterate over the matches and print the span text}
+         \PY{k}{for} \PY{n}{match\PYZus{}id}\PY{p}{,} \PY{n}{start}\PY{p}{,} \PY{n}{end} \PY{o+ow}{in} \PY{n}{matches}\PY{p}{:}
+             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Match found:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{doc}\PY{p}{[}\PY{n}{start}\PY{p}{:}\PY{n}{end}\PY{p}{]}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Total matches found: 5
+Match found: beautiful design
+Match found: smart search
+Match found: automatic labels
+Match found: optional voice
+Match found: optional voice responses
+
+    \end{Verbatim}
+
+    \hypertarget{reflection}{%
+\section{Reflection}\label{reflection}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  What is spaCy?
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Niinkuin jokaisen muunkin aihepiiriin työstämisen helpottamiseksi
+    löytyy kirjastot, löytyy myös luonnollisen kielen käsittelyynkin.
+    Kirjaston nimi on spaCy.
+  \item
+    SpaCy on siis luonnollisen kielen käsittelyyn suunniteltu kirjasto.
+    Se sisältää paljon funktoita esimerkiksi datan käsittelyyn. SpaCy
+    helpottaa ja nopeuttaa huomattavasti luonnollisen kielen käsittelyä
+    python-ympäristössä.
+  \end{itemize}
+\item
+  Why you are not able to repeat parts 1.4 - 1.8 with Finnish?
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Suomen kielelle ei ole ainakaan vielä olemassa pipeline-pakettia
+    luotuna. Kukaan ei ole ottanut sitä työkseen.
+  \end{itemize}
+\item
+  What's not included in a model package that you can load into spaCy?
+
+  \begin{itemize}
+  \tightlist
+  \item
+    A meta file including the language, pipeline and license.
+  \item
+    Binary weights to make statistical predictions.
+  \item
+    \textbf{The labelled data that the model was trained on.}
+    \textless{}= Ei kuulu
+  \item
+    Strings of the model's vocabulary and their hashes.
+  \end{itemize}
+\item
+  What is \texttt{nlp}?
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{nlp} funktio luo tekstistä (doc) objektin ja tokenoi
+    tekstin.
+  \end{itemize}
+\end{enumerate}
+
+    \emph{Your answers here\ldots{}}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
