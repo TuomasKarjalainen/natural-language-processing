@@ -141,7 +141,7 @@
     \def\gt{>}
     \def\lt{<}
     % Document parameters
-    \title{Chapter1}
+    \title{Chapter2}
     
     
     
@@ -280,638 +280,905 @@
     
 
     
-    \hypertarget{chapter-1-finding-words-phrases-names-and-concepts}{%
-\section{Chapter 1: Finding words, phrases, names and
-concepts}\label{chapter-1-finding-words-phrases-names-and-concepts}}
+    \hypertarget{chapter-2-large-scale-data-analysis-with-spacy}{%
+\section{Chapter 2: Large-scale data analysis with
+spaCy}\label{chapter-2-large-scale-data-analysis-with-spacy}}
 
-This chapter will introduce you to the basics of text processing with
-spaCy. You'll learn about the data structures, how to work with
-statistical models, and how to use them to predict linguistic features
-in your text.
+In this chapter, you'll use your new skills to extract specific
+information from large volumes of text. You''ll learn how to make the
+most of spaCy's data structures, and how to effectively combine
+statistical and rule-based approaches for text analysis.
 
-\hypertarget{getting-started}{%
-\subsubsection{1.1 Getting Started}\label{getting-started}}
+\hypertarget{strings-to-hashes}{%
+\subsubsection{2.1 Strings to hashes}\label{strings-to-hashes}}
 
-Let's get started and try out spaCy! You'll be able to try out some of
-the 55+ available languages.
+\textbf{Part 1}
 
 \begin{itemize}
 \tightlist
 \item
-  Import the English class from spacy.lang.en and create the
-  \texttt{nlp} object.
+  Look up the string ``cat'' in \texttt{nlp.vocab.strings} to get the
+  hash.
 \item
-  Let's create a \texttt{doc} and print its \texttt{text}.
+  Look up the hash to get back the string.
 \end{itemize}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}1}]:} \PY{c+c1}{\PYZsh{} Import the English language class}
-        \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{en} \PY{k}{import} \PY{n}{English}
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{en} \PY{k}{import} \PY{n}{English}
         
-        \PY{c+c1}{\PYZsh{} Create the nlp object}
+        \PY{n}{nlp} \PY{o}{=} \PY{n}{English}\PY{p}{(}\PY{p}{)}
+        \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{I have a cat}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Look up the hash for the word \PYZdq{}cat\PYZdq{}}
+        \PY{n}{cat\PYZus{}hash} \PY{o}{=} \PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{o}{.}\PY{n}{strings}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cat}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{cat\PYZus{}hash}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Look up the cat\PYZus{}hash to get the string}
+        \PY{n}{cat\PYZus{}string} \PY{o}{=} \PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{o}{.}\PY{n}{strings}\PY{p}{[}\PY{n}{cat\PYZus{}hash}\PY{p}{]}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{cat\PYZus{}string}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+5439657043933447811
+cat
+
+    \end{Verbatim}
+
+    \textbf{Part 2}
+
+\begin{itemize}
+\tightlist
+\item
+  Look up the string label ``PERSON'' in \texttt{nlp.vocab.strings} to
+  get the hash.
+\item
+  Look up the hash to get back the string.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+        
+        \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{David Bowie is a PERSON}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Look up the hash for the string label \PYZdq{}PERSON\PYZdq{}}
+        \PY{n}{person\PYZus{}hash} \PY{o}{=} \PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{o}{.}\PY{n}{strings}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{PERSON}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{person\PYZus{}hash}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Look up the person\PYZus{}hash to get the string}
+        \PY{n}{person\PYZus{}string} \PY{o}{=} \PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{o}{.}\PY{n}{strings}\PY{p}{[}\PY{n}{person\PYZus{}hash}\PY{p}{]}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{person\PYZus{}string}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+380
+PERSON
+
+    \end{Verbatim}
+
+    \hypertarget{exercise-2.1-why-does-this-code-throw-an-error}{%
+\paragraph{Exercise 2.1: Why does this code throw an
+error?}\label{exercise-2.1-why-does-this-code-throw-an-error}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{c+c1}{\PYZsh{} Exercise 2.1:}
+        \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+        \PY{c+c1}{\PYZsh{} Why does this code throw an error?}
+        
+        
+        \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{en} \PY{k}{import} \PY{n}{English}
+        \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{de} \PY{k}{import} \PY{n}{German}
+        
+        \PY{c+c1}{\PYZsh{} Create an English and German nlp object}
+        \PY{n}{nlp} \PY{o}{=} \PY{n}{English}\PY{p}{(}\PY{p}{)}
+        \PY{n}{nlp\PYZus{}de} \PY{o}{=} \PY{n}{German}\PY{p}{(}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Get the ID for the string \PYZsq{}Bowie\PYZsq{}}
+        \PY{n}{bowie\PYZus{}id} \PY{o}{=} \PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{o}{.}\PY{n}{strings}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Bowie}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{bowie\PYZus{}id}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Look up the ID for \PYZdq{}Bowie\PYZdq{} in the vocab}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{nlp\PYZus{}de}\PY{o}{.}\PY{n}{vocab}\PY{o}{.}\PY{n}{strings}\PY{p}{[}\PY{n}{bowie\PYZus{}id}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+2644858412616767388
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+        ---------------------------------------------------------------------------
+
+        KeyError                                  Traceback (most recent call last)
+
+        <ipython-input-3-09ba464d7e29> in <module>
+         16 
+         17 \# Look up the ID for "Bowie" in the vocab
+    ---> 18 print(nlp\_de.vocab.strings[bowie\_id])
+    
+
+        /opt/conda/lib/python3.6/site-packages/spacy/strings.pyx in spacy.strings.StringStore.\_\_getitem\_\_()
+
+
+        KeyError: "[E018] Can't retrieve string for hash '2644858412616767388'. This usually refers to an issue with the `Vocab` or `StringStore`."
+
+    \end{Verbatim}
+
+    \emph{Your answer here\ldots{}}
+
+    \begin{itemize}
+\tightlist
+\item
+  Luulen, että errori tulee siitä jos \texttt{Bowie} merkkijonoa ei
+  löydy saksalaisesta sanastosta, joten sen hash-numerosarjaakaan ei
+  voida ratkaista.
+\item
+  Toisekseen huomasin, että \texttt{Bowie} sanaa haettiin aluksi
+  käyttämällä \texttt{nlp} -objektia, mutta ID:n tarkisuksessa
+  käytettiin saksan kieliseksi \texttt{nlp\_de} määritettyä objektia (?)
+\end{itemize}
+
+    \hypertarget{creating-a-doc}{%
+\subsubsection{2.2 Creating a Doc}\label{creating-a-doc}}
+
+Let's create some Doc objects from scratch!
+
+\textbf{Part 1}
+
+\begin{itemize}
+\tightlist
+\item
+  Import the \texttt{Doc} from \texttt{spacy.tokens}.
+\item
+  Create a \texttt{Doc} from the \texttt{words} and \texttt{spaces}.
+  Don't forget to pass in the vocab!
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{en} \PY{k}{import} \PY{n}{English}
+        
         \PY{n}{nlp} \PY{o}{=} \PY{n}{English}\PY{p}{(}\PY{p}{)}
         
-        \PY{c+c1}{\PYZsh{} Process a text}
-        \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{This is a sentence.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} Import the Doc class}
+        \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{tokens} \PY{k}{import} \PY{n}{Doc}
         
-        \PY{c+c1}{\PYZsh{} Print the document text}
+        \PY{c+c1}{\PYZsh{} Desired text: \PYZdq{}spaCy is cool!\PYZdq{}}
+        \PY{n}{words} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{spaCy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cool}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+        \PY{n}{spaces} \PY{o}{=} \PY{p}{[}\PY{k+kc}{True}\PY{p}{,} \PY{k+kc}{True}\PY{p}{,} \PY{k+kc}{False}\PY{p}{,} \PY{k+kc}{False}\PY{p}{]}
         
-        \PY{c+c1}{\PYZsh{} .text() näyttää alkuperäisen docin, }
-        \PY{c+c1}{\PYZsh{} eli tässä tapauksessa lauseen}
+        \PY{c+c1}{\PYZsh{} Create a Doc from the words and spaces}
+        \PY{n}{doc} \PY{o}{=} \PY{n}{Doc}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{p}{,} \PY{n}{words}\PY{o}{=}\PY{n}{words}\PY{p}{,} \PY{n}{spaces}\PY{o}{=}\PY{n}{spaces}\PY{p}{)}
         \PY{n+nb}{print}\PY{p}{(}\PY{n}{doc}\PY{o}{.}\PY{n}{text}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-This is a sentence.
+spaCy is cool!
 
     \end{Verbatim}
 
-    \hypertarget{exercise-1.1-repeat-chapter-1.1-with-finnish.}{%
-\paragraph{Exercise 1.1: Repeat chapter 1.1 with
-Finnish.}\label{exercise-1.1-repeat-chapter-1.1-with-finnish.}}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}3}]:} \PY{c+c1}{\PYZsh{} Exercise 1.1:}
-        \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
-        \PY{c+c1}{\PYZsh{} Repeat chapter 1.1 with Finnish.}
-        \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{fi} \PY{k}{import} \PY{n}{Finnish}
-        
-        \PY{n}{nlp} \PY{o}{=} \PY{n}{Finnish}\PY{p}{(}\PY{p}{)}
-        
-        \PY{n}{doc\PYZus{}f} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Tämä on lause.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-        \PY{n+nb}{print}\PY{p}{(}\PY{n}{doc\PYZus{}f}\PY{o}{.}\PY{n}{text}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-Tämä on lause.
-
-    \end{Verbatim}
-
-    \hypertarget{documents-spans-and-tokens}{%
-\subsubsection{1.2 Documents, spans and
-tokens}\label{documents-spans-and-tokens}}
-
-When you call \texttt{nlp} on a string, spaCy first tokenizes the text
-and creates a document object. In this exercise, you'll learn more about
-the \texttt{Doc}, as well as its views \texttt{Token} and \texttt{Span}.
-
-\textbf{Step 1}
+    \textbf{Part 2}
 
 \begin{itemize}
 \tightlist
 \item
-  Let's import the English language class and create the \texttt{nlp}
-  object.
+  Import the \texttt{Doc} from \texttt{spacy.tokens}.
 \item
-  Process the text and instantiate a Doc object in the variable doc.
-\item
-  Select the first token of the Doc and print its text.
+  Create a \texttt{Doc} from the \texttt{words} and \texttt{spaces}.
+  Don't forget to pass in the vocab!
 \end{itemize}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}4}]:} \PY{c+c1}{\PYZsh{} Import the English language class and create the nlp object}
-        \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{en} \PY{k}{import} \PY{n}{English}
+{\color{incolor}In [{\color{incolor}5}]:} \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{en} \PY{k}{import} \PY{n}{English}
         
         \PY{n}{nlp} \PY{o}{=} \PY{n}{English}\PY{p}{(}\PY{p}{)}
         
-        \PY{c+c1}{\PYZsh{} Process the text}
-        \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{I like tree kangaroos and narwhals.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} Import the Doc class}
+        \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{tokens} \PY{k}{import} \PY{n}{Doc}
         
-        \PY{c+c1}{\PYZsh{} Select the first token}
-        \PY{n}{first\PYZus{}token} \PY{o}{=} \PY{n}{doc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+        \PY{c+c1}{\PYZsh{} Desired text: \PYZdq{}Go, get started!\PYZdq{}}
+        \PY{n}{words} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Go}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{,}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{get}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{started}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+        \PY{n}{spaces} \PY{o}{=} \PY{p}{[}\PY{k+kc}{False}\PY{p}{,} \PY{k+kc}{True}\PY{p}{,} \PY{k+kc}{True}\PY{p}{,} \PY{k+kc}{False}\PY{p}{,} \PY{k+kc}{False}\PY{p}{]}
         
-        \PY{c+c1}{\PYZsh{} Print the first token\PYZsq{}s text}
-        \PY{n+nb}{print}\PY{p}{(}\PY{n}{first\PYZus{}token}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} Create a Doc from the words and spaces}
+        \PY{n}{doc} \PY{o}{=} \PY{n}{Doc}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{p}{,} \PY{n}{words}\PY{o}{=}\PY{n}{words}\PY{p}{,} \PY{n}{spaces}\PY{o}{=}\PY{n}{spaces}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{doc}\PY{o}{.}\PY{n}{text}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-I
+Go, get started!
 
     \end{Verbatim}
 
-    \textbf{Step 2}
+    \hypertarget{exercise-2.2-complete-the-code}{%
+\paragraph{Exercise 2.2: Complete the
+code}\label{exercise-2.2-complete-the-code}}
 
 \begin{itemize}
 \tightlist
 \item
-  Import the English language class and create the nlp object.
+  Import the \texttt{English}.
 \item
-  Process the text and instantiate a Doc object in the variable doc.
-\item
-  Create a slice of the Doc for the tokens ``tree kangaroos'' and ``tree
-  kangaroos and narwhals''.
+  Complete the \texttt{words} and \texttt{spaces} to match the desired
+  text and create a \texttt{doc}.
 \end{itemize}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}5}]:} \PY{c+c1}{\PYZsh{} Import the English language class and create the nlp object}
-        \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{en} \PY{k}{import} \PY{n}{English}
+{\color{incolor}In [{\color{incolor}6}]:} \PY{c+c1}{\PYZsh{}\PYZsh{}\PYZsh{}\PYZsh{} Exercise 2.2: Complete the code}
         
-        \PY{n}{nlp} \PY{o}{=} \PY{n}{English}\PY{p}{(}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} Import English}
+        \PY{n}{nlp} \PY{o}{=} \PY{n}{English}\PY{p}{(}\PY{p}{)} 
         
-        \PY{c+c1}{\PYZsh{} Process the text}
-        \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{I like tree kangaroos and narwhals.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} Import the Doc class}
+        \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{tokens} \PY{k}{import} \PY{n}{Doc}
         
-        \PY{c+c1}{\PYZsh{} A slice of the Doc for \PYZdq{}tree kangaroos\PYZdq{}}
-        \PY{n}{tree\PYZus{}kangaroos} \PY{o}{=} \PY{n}{doc}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{:}\PY{l+m+mi}{4}\PY{p}{]}
-        \PY{n+nb}{print}\PY{p}{(}\PY{n}{tree\PYZus{}kangaroos}\PY{o}{.}\PY{n}{text}\PY{p}{)}
-        
-        \PY{c+c1}{\PYZsh{} A slice of the Doc for \PYZdq{}tree kangaroos and narwhals\PYZdq{} (without the \PYZdq{}.\PYZdq{})}
-        \PY{n}{tree\PYZus{}kangaroos\PYZus{}and\PYZus{}narwhals} \PY{o}{=} \PY{n}{doc}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{:}\PY{l+m+mi}{6}\PY{p}{]}
-        \PY{n+nb}{print}\PY{p}{(}\PY{n}{tree\PYZus{}kangaroos\PYZus{}and\PYZus{}narwhals}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} Desired text: \PYZdq{}Oh, really?!\PYZdq{}}
+        \PY{n}{words} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Oh}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{,}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{really}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{?}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+        \PY{n}{spaces} \PY{o}{=} \PY{p}{[}\PY{k+kc}{False}\PY{p}{,} \PY{k+kc}{True}\PY{p}{,} \PY{k+kc}{False}\PY{p}{,} \PY{k+kc}{False}\PY{p}{,} \PY{k+kc}{False}\PY{p}{]}
+        \PY{c+c1}{\PYZsh{} Create a Doc from the words and spaces}
+        \PY{n}{doc} \PY{o}{=} \PY{n}{Doc}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{p}{,} \PY{n}{words}\PY{o}{=}\PY{n}{words}\PY{p}{,} \PY{n}{spaces}\PY{o}{=}\PY{n}{spaces}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{doc}\PY{o}{.}\PY{n}{text}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-tree kangaroos
-tree kangaroos and narwhals
+Oh, really?!
 
     \end{Verbatim}
 
-    \hypertarget{lexical-attributes}{%
-\subsubsection{1.3 Lexical attributes}\label{lexical-attributes}}
+    \hypertarget{docs-spans-and-entities-from-scratch}{%
+\subsubsection{2.3 Docs, spans and entities from
+scratch}\label{docs-spans-and-entities-from-scratch}}
 
-In this example, you'll use spaCy's Doc and Token objects, and lexical
-attributes to find percentages in a text. You'll be looking for two
-subsequent tokens: a number and a percent sign.
+In this exercise, you'll create the \texttt{Doc} and \texttt{Span}
+objects manually, and update the named entities -- just like spaCy does
+behind the scenes. A shared \texttt{nlp} object has already been
+created.
 
 \begin{itemize}
 \tightlist
 \item
-  Use the like\_num token attribute to check whether a token in the doc
-  resembles a number.
+  Import the \texttt{Doc} and \texttt{Span} classes from
+  \texttt{spacy.tokens}.
 \item
-  Get the token following the current token in the document. The index
-  of the next token in the doc is token.i + 1.
+  Use the \texttt{Doc} class directly to create a doc from the words and
+  spaces.
 \item
-  Check whether the next token's text attribute is a percent sign
-  ''\%``.
+  Create a \texttt{Span} for ``David Bowie'' from the \texttt{doc} and
+  assign it the label \texttt{"PERSON"}.
+\item
+  Overwrite the \texttt{doc.ents} with a list of one entity, the ``David
+  Bowie'' \texttt{span}.
 \end{itemize}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}6}]:} \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{en} \PY{k}{import} \PY{n}{English}
+{\color{incolor}In [{\color{incolor}7}]:} \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{en} \PY{k}{import} \PY{n}{English}
         
         \PY{n}{nlp} \PY{o}{=} \PY{n}{English}\PY{p}{(}\PY{p}{)}
         
-        \PY{c+c1}{\PYZsh{} Process the text}
-        \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}
-            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{In 1990, more than 60}\PY{l+s+si}{\PYZpc{} o}\PY{l+s+s2}{f people in East Asia were in extreme poverty. }\PY{l+s+s2}{\PYZdq{}}
-            \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Now less than 4}\PY{l+s+si}{\PYZpc{} a}\PY{l+s+s2}{re.}\PY{l+s+s2}{\PYZdq{}}
-        \PY{p}{)}
+        \PY{c+c1}{\PYZsh{} Import the Doc and Span classes}
+        \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{tokens} \PY{k}{import} \PY{n}{Doc}\PY{p}{,} \PY{n}{Span}
         
-        \PY{c+c1}{\PYZsh{} Iterate over the tokens in the doc}
+        \PY{n}{words} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{I}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{like}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{David}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Bowie}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+        \PY{n}{spaces} \PY{o}{=} \PY{p}{[}\PY{k+kc}{True}\PY{p}{,} \PY{k+kc}{True}\PY{p}{,} \PY{k+kc}{True}\PY{p}{,} \PY{k+kc}{False}\PY{p}{]}
+        
+        \PY{c+c1}{\PYZsh{} Create a doc from the words and spaces}
+        \PY{n}{doc} \PY{o}{=} \PY{n}{Doc}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{p}{,} \PY{n}{words}\PY{o}{=}\PY{n}{words}\PY{p}{,} \PY{n}{spaces}\PY{o}{=}\PY{n}{spaces}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{doc}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Create a span for \PYZdq{}David Bowie\PYZdq{} from the doc and assign it the label \PYZdq{}PERSON\PYZdq{}}
+        \PY{c+c1}{\PYZsh{} Otetaan span eli palanen teksistä}
+        \PY{n}{span} \PY{o}{=} \PY{n}{Span}\PY{p}{(}\PY{n}{doc}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{PERSON}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{span}\PY{o}{.}\PY{n}{text}\PY{p}{,} \PY{n}{span}\PY{o}{.}\PY{n}{label\PYZus{}}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Add the span to the doc\PYZsq{}s entities}
+        \PY{n}{doc}\PY{o}{.}\PY{n}{ents} \PY{o}{=} \PY{p}{[}\PY{n}{span}\PY{p}{]}
+        
+        \PY{c+c1}{\PYZsh{} Print entities\PYZsq{} text and labels}
+        \PY{n+nb}{print}\PY{p}{(}\PY{p}{[}\PY{p}{(}\PY{n}{ent}\PY{o}{.}\PY{n}{text}\PY{p}{,} \PY{n}{ent}\PY{o}{.}\PY{n}{label\PYZus{}}\PY{p}{)} \PY{k}{for} \PY{n}{ent} \PY{o+ow}{in} \PY{n}{doc}\PY{o}{.}\PY{n}{ents}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+I like David Bowie
+David Bowie PERSON
+[('David Bowie', 'PERSON')]
+
+    \end{Verbatim}
+
+    \hypertarget{data-structures-and-best-practices}{%
+\subsubsection{2.4 Data structures and best
+practices}\label{data-structures-and-best-practices}}
+
+The code in this example is trying to analyze a text and collect all
+proper nouns that are followed by a verb.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+        \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Berlin looks like a nice city}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Get all tokens and part\PYZhy{}of\PYZhy{}speech tags}
+        
+        \PY{n}{token\PYZus{}texts} \PY{o}{=} \PY{p}{[}\PY{n}{token}\PY{o}{.}\PY{n}{text} \PY{k}{for} \PY{n}{token} \PY{o+ow}{in} \PY{n}{doc}\PY{p}{]}
+        \PY{n}{pos\PYZus{}tags} \PY{o}{=} \PY{p}{[}\PY{n}{token}\PY{o}{.}\PY{n}{pos\PYZus{}} \PY{k}{for} \PY{n}{token} \PY{o+ow}{in} \PY{n}{doc}\PY{p}{]}
+        
+        \PY{k}{for} \PY{n}{index}\PY{p}{,} \PY{n}{pos} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{pos\PYZus{}tags}\PY{p}{)}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} Check if the current token is a proper noun}
+            \PY{k}{if} \PY{n}{pos} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{PROPN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} Check if the next token is a verb}
+                \PY{k}{if} \PY{n}{pos\PYZus{}tags}\PY{p}{[}\PY{n}{index} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{]} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{VERB}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+                    \PY{n}{result} \PY{o}{=} \PY{n}{token\PYZus{}texts}\PY{p}{[}\PY{n}{index}\PY{p}{]}
+                    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Found proper noun before a verb:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{result}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Found proper noun before a verb: Berlin
+
+    \end{Verbatim}
+
+    \hypertarget{exercise-2.3-why-is-the-code-bad}{%
+\paragraph{Exercise 2.3: Why is the code
+bad?}\label{exercise-2.3-why-is-the-code-bad}}
+
+    \emph{Your answer here\ldots{}}
+
+    \begin{itemize}
+\item
+  \texttt{token\_texts} ja \texttt{pos\_tags} ovat turhia välivaiheita.
+\item
+  Samoin on \texttt{enumerate} -looppi.
+\item
+  Tosin koodi toimii, niin onhan se siinä mielessä kuitenkin hyvää
+  koodia :P
+\item
+  Koodin voisi kirjoittaa samaan tyyliin, kuin \textbf{Chapter1}:n
+  kohdassa \textbf{1.3}
+\end{itemize}
+
+    \hypertarget{exercise-2.4-rewrite-the-code}{%
+\paragraph{Exercise 2.4: Rewrite the
+code?}\label{exercise-2.4-rewrite-the-code}}
+
+\begin{itemize}
+\tightlist
+\item
+  Rewrite the code to use the native token attributes instead of lists
+  of \texttt{token\_texts} and \texttt{pos\_tags}.
+\item
+  Loop over each \texttt{token} in the \texttt{doc} and check the
+  \texttt{token.pos\_} attribute.
+\item
+  Use \texttt{doc{[}token.i\ +\ 1{]}} to check for the next token and
+  \texttt{its\ .pos\_} attribute.
+\item
+  If a proper noun before a verb is found, print its
+  \texttt{token.text}.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+        
+        \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Berlin looks like a nice city}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Your code here}
+        \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+        
+        
+        \PY{c+c1}{\PYZsh{} Iteroidaan tekstin tokenit}
         \PY{k}{for} \PY{n}{token} \PY{o+ow}{in} \PY{n}{doc}\PY{p}{:}
-            \PY{c+c1}{\PYZsh{} Check if the token resembles a number}
-            \PY{k}{if} \PY{n}{token}\PY{o}{.}\PY{n}{like\PYZus{}num}\PY{p}{:}
-                \PY{c+c1}{\PYZsh{} Get the next token in the document}
-                \PY{c+c1}{\PYZsh{} token.i + 1 saadaan seuraava tokeni tarkastelun kohteeksi}
-                \PY{n}{next\PYZus{}token} \PY{o}{=} \PY{n}{doc}\PY{p}{[}\PY{n}{token}\PY{o}{.}\PY{n}{i} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{]}
-                \PY{c+c1}{\PYZsh{} Check if the next token\PYZsq{}s text equals \PYZdq{}\PYZpc{}\PYZdq{}}
-                \PY{k}{if} \PY{n}{next\PYZus{}token}\PY{o}{.}\PY{n}{text} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
-                    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Percentage found:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{token}\PY{o}{.}\PY{n}{text}\PY{p}{)}
-                
+            \PY{c+c1}{\PYZsh{} .pos\PYZus{} :lla saatiin tokenin sanaluokka}
+            \PY{c+c1}{\PYZsh{} Tarkistetaan onko sanaluokka PROPN eli erisnimi}
+            \PY{k}{if} \PY{n}{token}\PY{o}{.}\PY{n}{pos\PYZus{}} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{PROPN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+                \PY{c+c1}{\PYZsh{} Tarkastetaan onko erisnimen jälkeen verbi}
+                \PY{c+c1}{\PYZsh{} token.i+1 :llä saatiin seuraava tokeni}
+                \PY{k}{if} \PY{n}{doc}\PY{p}{[}\PY{n}{token}\PY{o}{.}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{pos\PYZus{}} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{VERB}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+                    \PY{c+c1}{\PYZsh{} Lopuksi printataan alkuperäinen tokeni ...}
+                    \PY{c+c1}{\PYZsh{} ... jos sellainen teksistä löytyi}
+                    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Found proper noun before a verb:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{token}\PY{o}{.}\PY{n}{text}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-Percentage found: 60
-Percentage found: 4
+Found proper noun before a verb: Berlin
 
     \end{Verbatim}
 
-    \hypertarget{exercise-1.2-repeat-chapter-1.3-with-finnish.}{%
-\paragraph{Exercise 1.2: Repeat chapter 1.3 with
-Finnish.}\label{exercise-1.2-repeat-chapter-1.3-with-finnish.}}
+    \hypertarget{inspecting-word-vectors}{%
+\subsubsection{2.5 Inspecting word
+vectors}\label{inspecting-word-vectors}}
+
+In this exercise, you'll use a larger English model, which includes
+around 20.000 word vectors. The model is already pre-installed.
+
+\begin{itemize}
+\tightlist
+\item
+  Load the medium \texttt{"en\_core\_web\_md"} model with word vectors.
+\item
+  Print the vector for \texttt{"bananas"} using the
+  \texttt{token.vector} attribute.
+\end{itemize}
 
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}11}]:} \PY{c+c1}{\PYZsh{} Exercise 1.2:}
-         \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
-         \PY{c+c1}{\PYZsh{} Repeat chapter 1.3 with Finnish.}
+{\color{incolor}In [{\color{incolor}10}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
          
-         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{fi} \PY{k}{import} \PY{n}{Finnish}
+         \PY{c+c1}{\PYZsh{} Load the en\PYZus{}core\PYZus{}web\PYZus{}md model}
+         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}md}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
          
-         \PY{n}{nlp} \PY{o}{=} \PY{n}{Finnish}\PY{p}{(}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} Process a text}
+         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Two bananas in pyjamas}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
          
-         \PY{n}{doc\PYZus{}f} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}
-         \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Vuonna 1990 yli 60}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{ Itä\PYZhy{}Aasian ihmisistä oli äärimmäisessä köyhyydessä.}\PY{l+s+s2}{\PYZdq{}}
-         \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Nykyään alle 4}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{. }\PY{l+s+s2}{\PYZdq{}}
-         \PY{p}{)}
-         
-         
-         \PY{n}{doc\PYZus{}f2}\PY{o}{=} \PY{n}{nlp}\PY{p}{(}
-         \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Yli puolet 60}\PY{l+s+si}{\PYZpc{} s}\PY{l+s+s2}{uomalaisista ajattelee, että lihan syömiseen suhtaudutaan tällä hetkellä liian tuomitsevasti.}\PY{l+s+s2}{\PYZdq{}}
-         \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Lähes yhtä moni 58}\PY{l+s+si}{\PYZpc{} s}\PY{l+s+s2}{uomalaisista kokee, että lihansyönnin vähentämiselle asetetaan yhteiskunnallisia ja sosiaalisia paineita.}\PY{l+s+s2}{\PYZdq{}}
-         \PY{p}{)}
-         
-         \PY{c+c1}{\PYZsh{} Etsitään prosenttimerkki suomen kielisen tekstin seasta yksikertaisen loopin avulla}
-         
-         \PY{c+c1}{\PYZsh{} Käydään läpi docin (tekstin) tokenit}
-         \PY{k}{for} \PY{n}{token} \PY{o+ow}{in} \PY{n}{doc\PYZus{}f2}\PY{p}{:}
-             \PY{c+c1}{\PYZsh{} Jos tokeni muistuttaa numeroa, otetaan se tarkasteluun}
-             \PY{k}{if} \PY{n}{token}\PY{o}{.}\PY{n}{like\PYZus{}num}\PY{p}{:}
-                 \PY{c+c1}{\PYZsh{} Seuraava tokeni saadaan token.i + 1:llä}
-                 \PY{n}{next\PYZus{}token} \PY{o}{=} \PY{n}{doc\PYZus{}f2}\PY{p}{[}\PY{n}{token}\PY{o}{.}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{]}
-                 \PY{c+c1}{\PYZsh{} Jos seuraava token on prosenttimerkki ...}
-                 \PY{c+c1}{\PYZsh{} ... olemme löytäneet prosenttiluvun teksistä}
-                 \PY{k}{if} \PY{n}{next\PYZus{}token}\PY{o}{.}\PY{n}{text} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
-                     \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Prosenttiluku löytyi: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{token}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} Get the vector for the token \PYZdq{}bananas\PYZdq{}}
+         \PY{n}{bananas\PYZus{}vector} \PY{o}{=} \PY{n}{doc}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{vector}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{bananas\PYZus{}vector}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-Prosenttiluku löytyi:  60
-Prosenttiluku löytyi:  58
+[-2.2009e-01 -3.0322e-02 -7.9859e-02 -4.6279e-01 -3.8600e-01  3.6962e-01
+ -7.7178e-01 -1.1529e-01  3.3601e-02  5.6573e-01 -2.4001e-01  4.1833e-01
+  1.5049e-01  3.5621e-01 -2.1508e-01 -4.2743e-01  8.1400e-02  3.3916e-01
+  2.1637e-01  1.4792e-01  4.5811e-01  2.0966e-01 -3.5706e-01  2.3800e-01
+  2.7971e-02 -8.4538e-01  4.1917e-01 -3.9181e-01  4.0434e-04 -1.0662e+00
+  1.4591e-01  1.4643e-03  5.1277e-01  2.6072e-01  8.3785e-02  3.0340e-01
+  1.8579e-01  5.9999e-02 -4.0270e-01  5.0888e-01 -1.1358e-01 -2.8854e-01
+ -2.7068e-01  1.1017e-02 -2.2217e-01  6.9076e-01  3.6459e-02  3.0394e-01
+  5.6989e-02  2.2733e-01 -9.9473e-02  1.5165e-01  1.3540e-01 -2.4965e-01
+  9.8078e-01 -8.0492e-01  1.9326e-01  3.1128e-01  5.5390e-02 -4.2423e-01
+ -1.4082e-02  1.2708e-01  1.8868e-01  5.9777e-02 -2.2215e-01 -8.3950e-01
+  9.1987e-02  1.0180e-01 -3.1299e-01  5.5083e-01 -3.0717e-01  4.4201e-01
+  1.2666e-01  3.7643e-01  3.2333e-01  9.5673e-02  2.5083e-01 -6.4049e-02
+  4.2143e-01 -1.9375e-01  3.8026e-01  7.0883e-03 -2.0371e-01  1.5402e-01
+ -3.7877e-03 -2.9396e-01  9.6518e-01  2.0068e-01 -5.6572e-01 -2.2581e-01
+  3.2251e-01 -3.4634e-01  2.7064e-01 -2.0687e-01 -4.7229e-01  3.1704e-01
+ -3.4665e-01 -2.5188e-01 -1.1201e-01 -3.3937e-01  3.1518e-01 -3.2221e-01
+ -2.4530e-01 -7.1571e-02 -4.3971e-01 -1.2070e+00  3.3365e-01 -5.8208e-02
+  8.0899e-01  4.2335e-01  3.8678e-01 -6.0797e-01 -7.3760e-01 -2.0547e-01
+ -1.7499e-01 -3.7842e-03  2.1930e-01 -5.2486e-02  3.4869e-01  4.3852e-01
+ -3.4471e-01  2.8910e-01  7.2554e-02 -4.8625e-01 -3.8390e-01 -4.4760e-01
+  4.3278e-01 -2.7128e-03 -9.0067e-01 -3.0819e-02 -3.8630e-01 -8.0798e-02
+ -1.6243e-01  2.8830e-01 -2.6349e-01  1.7628e-01  3.5958e-01  5.7672e-01
+ -5.4624e-01  3.8555e-02 -2.0182e+00  3.2916e-01  3.4672e-01  1.5398e-01
+ -4.3446e-01 -4.1428e-02 -6.9588e-02  5.1513e-01 -1.3489e-01 -5.7239e-02
+  4.9241e-01  1.8643e-01  3.8596e-01 -3.7329e-02 -5.4216e-01 -1.8152e-01
+  4.3110e-01 -4.6967e-01  6.6801e-02  5.0323e-01 -2.4059e-01  3.6742e-01
+  2.9300e-01 -8.7883e-02 -4.7940e-01 -4.3431e-02 -2.6137e-01 -6.2658e-01
+  1.1446e-01  2.7682e-01  3.4800e-01  5.0018e-01  1.4269e-01 -3.3545e-01
+ -3.9712e-01 -3.3121e-01 -3.4434e-01 -4.1627e-01 -3.5707e-03 -6.2350e-01
+  3.7794e-01 -1.6765e-01 -4.1954e-01 -3.3134e-01  3.1232e-01 -3.9494e-01
+ -4.6921e-03 -4.8884e-01 -2.2059e-02 -2.6174e-01  1.7937e-01  3.6628e-01
+  5.8971e-02 -3.5991e-01 -4.4393e-01 -1.1890e-01  3.3487e-01  3.6505e-02
+ -3.2788e-01  3.3425e-01 -5.6361e-01 -1.1190e-01  5.3770e-01  2.0311e-01
+  1.5110e-01  1.0623e-02  3.3401e-01  4.6084e-01  5.6293e-01 -7.5432e-02
+  5.4813e-01  1.9395e-01 -2.6265e-01 -3.1699e-01 -8.1778e-01  5.8169e-02
+ -5.7866e-02 -1.1781e-01 -5.8742e-02 -1.4092e-01 -9.9394e-01 -9.4532e-02
+  2.3503e-01 -4.9027e-01  8.5832e-01  1.1540e-01 -1.5049e-01  1.9065e-01
+ -2.6705e-01  2.5326e-01 -6.7579e-01 -1.0633e-02 -5.5158e-02 -3.1004e-01
+ -5.8036e-02 -1.7200e-01  1.3298e-01 -3.2899e-01 -7.5481e-02  2.9425e-02
+ -3.2949e-01 -1.8691e-01 -9.5323e-01 -3.5468e-01 -3.3162e-01  5.6441e-02
+  2.1790e-02  1.7182e-01 -4.4267e-01  6.9765e-01 -2.6876e-01  1.1659e-01
+ -1.6584e-01  3.8296e-01  2.9109e-01  3.6318e-01  3.6961e-01  1.6305e-01
+  1.8152e-01  2.2453e-01  3.9866e-02 -3.7607e-02 -3.6089e-01  7.0818e-02
+ -2.1509e-01  3.6551e-01 -5.1603e-01 -5.8102e-03 -4.8320e-01 -2.5068e-01
+ -5.2062e-02 -2.0828e-01  2.9060e-01  2.2084e-02 -6.8123e-01  4.2063e-01
+  9.5973e-02  8.1720e-01 -1.5241e-01  6.2994e-01  2.6449e-01 -1.3516e-01
+  3.2450e-01  3.0503e-01  1.2357e-01  1.5107e-01  2.8327e-01 -3.3838e-01
+  4.6106e-02 -1.2361e-01  1.4516e-01 -2.7947e-02  2.6231e-02 -5.9591e-01
+ -4.4183e-01  7.8440e-01 -3.4375e-02 -1.3928e+00  3.5248e-01  6.5220e-01]
 
     \end{Verbatim}
 
-    \hypertarget{loading-models}{%
-\subsubsection{1.4 Loading Models}\label{loading-models}}
+    \hypertarget{comparing-similarities}{%
+\subsubsection{2.6 Comparing
+similarities}\label{comparing-similarities}}
 
-Use spacy.load to load the small English model ``en\_core\_web\_sm''.
-Process the text and print the document text.
+In this exercise, you'll be using spaCy's similarity methods to compare
+Doc, Token and Span objects and get similarity scores.
+
+\textbf{Part 1}
+
+\begin{itemize}
+\tightlist
+\item
+  Use the \texttt{doc.similarity} method to compare \texttt{doc1} to
+  \texttt{doc2} and print the result.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+         
+         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}md}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{doc1} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{It}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{s a warm summer day}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{doc2} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{It}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{s sunny outside}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Get the similarity of doc1 and doc2}
+         
+         \PY{c+c1}{\PYZsh{} Tarkistetaan, kuinka lähellä nämä kaksi lausetta ovat toisiaan}
+         \PY{n}{similarity} \PY{o}{=} \PY{n}{doc1}\PY{o}{.}\PY{n}{similarity}\PY{p}{(}\PY{n}{doc2}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{similarity}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0.8789265574516525
+
+    \end{Verbatim}
+
+    \textbf{Part 2}
+
+\begin{itemize}
+\tightlist
+\item
+  Use the \texttt{token.similarity} method to compare \texttt{TV} to
+  \texttt{books} and print the result.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+         
+         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}md}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{TV and books}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{token1}\PY{p}{,} \PY{n}{token2} \PY{o}{=} \PY{n}{doc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{doc}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+         
+         \PY{c+c1}{\PYZsh{} Get the similarity of the tokens \PYZdq{}TV\PYZdq{} and \PYZdq{}books\PYZdq{}}
+         \PY{n}{similarity} \PY{o}{=} \PY{n}{token1}\PY{o}{.}\PY{n}{similarity}\PY{p}{(}\PY{n}{token2}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{similarity}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0.22325331
+
+    \end{Verbatim}
+
+    \hypertarget{exercise-2.5-similarity-between-great-restaurant-and-really-nice-bar}{%
+\paragraph{Exercise 2.5: Similarity between ``great restaurant'' and
+``really nice
+bar''?}\label{exercise-2.5-similarity-between-great-restaurant-and-really-nice-bar}}
+
+\begin{itemize}
+\tightlist
+\item
+  Create spans for ``great restaurant''/``really nice bar''.
+\item
+  Use \texttt{span.similarity} to compare them and print the result.
+\end{itemize}
 
     \begin{Verbatim}[commandchars=\\\{\}]
 {\color{incolor}In [{\color{incolor}13}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
          
-         \PY{c+c1}{\PYZsh{} Load the small English model}
-         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}md}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
          
-         \PY{n}{text} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{It’s official: Apple is the first U.S. public company to reach a \PYZdl{}1 trillion market value}\PY{l+s+s2}{\PYZdq{}}
+         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{This was a great restaurant. Afterwards, we went to a really nice bar.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
          
-         \PY{c+c1}{\PYZsh{} Process the text}
-         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{n}{text}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} Exercise 2.5: Complete the code}
+         \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+         \PY{c+c1}{\PYZsh{} Create spans for \PYZdq{}great restaurant\PYZdq{} and \PYZdq{}really nice bar\PYZdq{}}
+         \PY{n}{span1} \PY{o}{=} \PY{n}{doc}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{]}
+         \PY{n}{span2} \PY{o}{=} \PY{n}{doc}\PY{p}{[}\PY{l+m+mi}{12}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
          
-         \PY{c+c1}{\PYZsh{} Print the document text}
-         \PY{n+nb}{print}\PY{p}{(}\PY{n}{doc}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Span1:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{span1}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Span2:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{span2}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Get the similarity of the spans}
+         \PY{n}{similarity} \PY{o}{=} \PY{n}{span1}\PY{o}{.}\PY{n}{similarity}\PY{p}{(}\PY{n}{span2}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Similarity:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{similarity}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-It’s official: Apple is the first U.S. public company to reach a \$1 trillion market value
+Span1: great restaurant
+Span2: really nice bar
+Similarity: 0.75173926
 
     \end{Verbatim}
 
-    \hypertarget{predicting-linquistic-annotations}{%
-\subsubsection{1.5 Predicting linquistic
-annotations}\label{predicting-linquistic-annotations}}
+    \hypertarget{debugging-patterns-1}{%
+\subsubsection{2.6 Debugging patterns (1)}\label{debugging-patterns-1}}
 
-You'll now get to try one of spaCy's pre-trained model packages and see
-its predictions in action. Feel free to try it out on your own text! To
-find out what a tag or label means, you can call spacy.explain in the
-loop. For example: spacy.explain(``PROPN'') or spacy.explain(``GPE'').
+\hypertarget{exercise-2.6-why-does-this-pattern-not-match-the-tokens-silicon-valley-in-the-doc}{%
+\paragraph{Exercise 2.6: Why does this pattern not match the tokens
+``Silicon Valley'' in the
+doc?}\label{exercise-2.6-why-does-this-pattern-not-match-the-tokens-silicon-valley-in-the-doc}}
 
-\textbf{Part 1}
+\texttt{pattern\ =\ {[}\{"LOWER":\ "silicon"\},\ \{"TEXT":\ "\ "\},\ \{"LOWER":\ "valley"\}{]}}
+
+\texttt{doc\ =\ nlp("Can\ Silicon\ Valley\ workers\ rein\ in\ big\ tech\ from\ within?")}
+
+    \emph{Your answer here\ldots{}}
+
+    \begin{itemize}
+\tightlist
+\item
+  Tokenizer ei luo tokenia välilyönnille
+\end{itemize}
+
+    \hypertarget{debugging-patterns-2}{%
+\subsubsection{2.7 Debugging patterns (2)}\label{debugging-patterns-2}}
+
+\hypertarget{exercise-2.7-both-patterns-in-this-exercise-contain-mistakes-and-wont-match-as-expected.-can-you-fix-them}{%
+\paragraph{Exercise 2.7: Both patterns in this exercise contain mistakes
+and won't match as expected. Can you fix
+them?}\label{exercise-2.7-both-patterns-in-this-exercise-contain-mistakes-and-wont-match-as-expected.-can-you-fix-them}}
+
+If you get stuck, try printing the tokens in the \texttt{doc} to see how
+the text will be split and adjust the pattern so that each dictionary
+represents one token.
 
 \begin{itemize}
 \tightlist
 \item
-  Process the text with the nlp object and create a doc.
+  Edit pattern1 so that it correctly matches all case-insensitive
+  mentions of ``Amazon'' plus a title-cased proper noun.
 \item
-  For each token, print the token text, the token's .pos\_
-  (part-of-speech tag) and the token's .dep\_ (dependency label).
+  Edit pattern2 so that it correctly matches all case-insensitive
+  mentions of ``ad-free'', plus the following noun.
 \end{itemize}
 
     \begin{Verbatim}[commandchars=\\\{\}]
 {\color{incolor}In [{\color{incolor}14}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{matcher} \PY{k}{import} \PY{n}{Matcher}
          
          \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Twitch Prime, the perks program for Amazon Prime members offering free }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loot, games and other benefits, is ditching one of its best features: }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ad\PYZhy{}free viewing. According to an email sent out to Amazon Prime members }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{today, ad\PYZhy{}free viewing will no longer be included as a part of Twitch }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Prime for new members, beginning on September 14. However, members with }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{existing annual subscriptions will be able to continue to enjoy ad\PYZhy{}free }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{viewing until their subscription comes up for renewal. Those with }\PY{l+s+s2}{\PYZdq{}}
+             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{monthly subscriptions will have access to ad\PYZhy{}free viewing until October 15.}\PY{l+s+s2}{\PYZdq{}}
+         \PY{p}{)}
          
-         \PY{n}{text} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{It’s official: Apple is the first U.S. public company to reach a \PYZdl{}1 trillion market value}\PY{l+s+s2}{\PYZdq{}}
+         \PY{c+c1}{\PYZsh{} Create the match patterns}
          
-         \PY{c+c1}{\PYZsh{} Process the text}
-         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{n}{text}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} Pattern1:ssä pitää muutta \PYZdq{}LOWER\PYZdq{} \PYZhy{}tokeni pienellä kirjoitettuun muotoon}
+         \PY{c+c1}{\PYZsh{}pattern1 = [[\PYZob{}\PYZdq{}LOWER\PYZdq{}: \PYZdq{}Amazon\PYZdq{}\PYZcb{}, \PYZob{}\PYZdq{}IS\PYZus{}TITLE\PYZdq{}: True, \PYZdq{}POS\PYZdq{}: \PYZdq{}PROPN\PYZdq{}\PYZcb{}]]}
+         \PY{n}{pattern1} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{LOWER}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{amazon}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{IS\PYZus{}TITLE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{k+kc}{True}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{POS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{PROPN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{]}\PY{p}{]}
+         \PY{c+c1}{\PYZsh{} Pattern2:ssa pitää purkaa \PYZdq{}ad\PYZhy{}free\PYZdq{} useampaan osaan ...}
+         \PY{c+c1}{\PYZsh{} ... sillä se on kaksiosainen ja sisältää välimerkin}
+         \PY{c+c1}{\PYZsh{}pattern2 = [[\PYZob{}\PYZdq{}LOWER\PYZdq{}: \PYZdq{}ad\PYZhy{}free\PYZdq{}\PYZcb{}, \PYZob{}\PYZdq{}POS\PYZdq{}: \PYZdq{}NOUN\PYZdq{}\PYZcb{}]]}
+         \PY{n}{pattern2} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{LOWER}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ad}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{IS\PYZus{}PUNCT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{k+kc}{True}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{LOWER}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{free}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{POS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NOUN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{]}\PY{p}{]}
          
-         \PY{k}{for} \PY{n}{token} \PY{o+ow}{in} \PY{n}{doc}\PY{p}{:}
-             \PY{c+c1}{\PYZsh{} Get the token text, part\PYZhy{}of\PYZhy{}speech tag and dependency label}
-             \PY{n}{token\PYZus{}text} \PY{o}{=} \PY{n}{token}\PY{o}{.}\PY{n}{text}
-             \PY{n}{token\PYZus{}pos} \PY{o}{=} \PY{n}{token}\PY{o}{.}\PY{n}{pos\PYZus{}}
-             \PY{n}{token\PYZus{}dep} \PY{o}{=} \PY{n}{token}\PY{o}{.}\PY{n}{dep\PYZus{}}
-             \PY{c+c1}{\PYZsh{} This is for formatting only}
-             \PY{n+nb}{print}\PY{p}{(}\PY{n}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}token\PYZus{}text:\PYZlt{}12\PYZcb{}}\PY{l+s+si}{\PYZob{}token\PYZus{}pos:\PYZlt{}10\PYZcb{}}\PY{l+s+si}{\PYZob{}token\PYZus{}dep:\PYZlt{}10\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} Initialize the Matcher and add the patterns}
+         \PY{n}{matcher} \PY{o}{=} \PY{n}{Matcher}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{p}{)}
+         \PY{n}{matcher}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{PATTERN1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{pattern1}\PY{p}{)}
+         \PY{n}{matcher}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{PATTERN2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{pattern2}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Iterate over the matches}
+         \PY{k}{for} \PY{n}{match\PYZus{}id}\PY{p}{,} \PY{n}{start}\PY{p}{,} \PY{n}{end} \PY{o+ow}{in} \PY{n}{matcher}\PY{p}{(}\PY{n}{doc}\PY{p}{)}\PY{p}{:}
+             \PY{c+c1}{\PYZsh{} Print pattern string name and text of matched span}
+             \PY{n+nb}{print}\PY{p}{(}\PY{n}{doc}\PY{o}{.}\PY{n}{vocab}\PY{o}{.}\PY{n}{strings}\PY{p}{[}\PY{n}{match\PYZus{}id}\PY{p}{]}\PY{p}{,} \PY{n}{doc}\PY{p}{[}\PY{n}{start}\PY{p}{:}\PY{n}{end}\PY{p}{]}\PY{o}{.}\PY{n}{text}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-It          PRON      nsubj     
-’s          VERB      ccomp     
-official    ADJ       acomp     
-:           PUNCT     punct     
-Apple       PROPN     nsubj     
-is          AUX       ROOT      
-the         DET       det       
-first       ADJ       amod      
-U.S.        PROPN     nmod      
-public      ADJ       amod      
-company     NOUN      attr      
-to          PART      aux       
-reach       VERB      relcl     
-a           DET       det       
-\$           SYM       quantmod  
-1           NUM       compound  
-trillion    NUM       nummod    
-market      NOUN      compound  
-value       NOUN      dobj      
+PATTERN1 Amazon Prime
+PATTERN2 ad-free viewing
+PATTERN1 Amazon Prime
+PATTERN2 ad-free viewing
+PATTERN2 ad-free viewing
+PATTERN2 ad-free viewing
 
     \end{Verbatim}
 
-    \hypertarget{exercise-1.3-print-explanations-for-propn-nsubj-and-quantmod.}{%
-\paragraph{Exercise 1.3: Print explanations for PROPN, nsubj and
-quantmod.}\label{exercise-1.3-print-explanations-for-propn-nsubj-and-quantmod.}}
+    \hypertarget{efficient-phrase-matching}{%
+\subsubsection{2.8 Efficient phrase
+matching}\label{efficient-phrase-matching}}
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}16}]:} \PY{c+c1}{\PYZsh{} Exercise 1.3:}
-         \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
-         \PY{c+c1}{\PYZsh{} Print explanations for PROPN, nsubj and quantmod. }
-         \PY{n+nb}{print}\PY{p}{(}\PY{n}{spacy}\PY{o}{.}\PY{n}{explain}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{PROPN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
-         \PY{n+nb}{print}\PY{p}{(}\PY{n}{spacy}\PY{o}{.}\PY{n}{explain}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{nsubj}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
-         \PY{n+nb}{print}\PY{p}{(}\PY{n}{spacy}\PY{o}{.}\PY{n}{explain}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{quantmod}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-proper noun
-nominal subject
-modifier of quantifier
-
-    \end{Verbatim}
-
-    \textbf{Part 2}
-
-Process the text and create a doc object. Iterate over the doc.ents and
-print the entity text and label\_ attribute.
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}17}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
-         
-         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-         
-         \PY{n}{text} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{It’s official: Apple is the first U.S. public company to reach a \PYZdl{}1 trillion market value}\PY{l+s+s2}{\PYZdq{}}
-         
-         \PY{c+c1}{\PYZsh{} Process the text}
-         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{n}{text}\PY{p}{)}
-         
-         \PY{c+c1}{\PYZsh{} Iterate over the predicted entities}
-         \PY{k}{for} \PY{n}{ent} \PY{o+ow}{in} \PY{n}{doc}\PY{o}{.}\PY{n}{ents}\PY{p}{:}
-             \PY{c+c1}{\PYZsh{} Print the entity text and its label}
-             \PY{n+nb}{print}\PY{p}{(}\PY{n}{ent}\PY{o}{.}\PY{n}{text}\PY{p}{,} \PY{n}{ent}\PY{o}{.}\PY{n}{label\PYZus{}}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-Apple ORG
-first ORDINAL
-U.S. GPE
-\$1 trillion MONEY
-
-    \end{Verbatim}
-
-    \hypertarget{predicting-named-entities-in-context}{%
-\subsubsection{1.6 Predicting named entities in
-context}\label{predicting-named-entities-in-context}}
-
-Models are statistical and not always right. Whether their predictions
-are correct depends on the training data and the text you're processing.
-Let's take a look at an example.
+Sometimes it's more efficient to match exact strings instead of writing
+patterns describing the individual tokens. This is especially true for
+finite categories of things -- like all countries of the world. We
+already have a list of countries, so let's use this as the basis of our
+information extraction script. A list of string names is available as
+the variable COUNTRIES.
 
 \begin{itemize}
 \tightlist
 \item
-  Process the text with the nlp object.
+  Import the PhraseMatcher and initialize it with the shared vocab as
+  the variable matcher.
 \item
-  Iterate over the entities and print the entity text and label.
-\item
-  Looks like the model didn't predict ``iPhone X''. Create a span for
-  those tokens manually.
+  Add the phrase patterns and call the matcher on the doc.
 \end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{k+kn}{import} \PY{n+nn}{json}
+         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{en} \PY{k}{import} \PY{n}{English}
+         
+         \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{data/countries.json}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{encoding}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{utf8}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+             \PY{n}{COUNTRIES} \PY{o}{=} \PY{n}{json}\PY{o}{.}\PY{n}{loads}\PY{p}{(}\PY{n}{f}\PY{o}{.}\PY{n}{read}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{nlp} \PY{o}{=} \PY{n}{English}\PY{p}{(}\PY{p}{)}
+         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Czech Republic may help Slovakia protect its airspace}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Import the PhraseMatcher and initialize it}
+         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{matcher} \PY{k}{import} \PY{n}{PhraseMatcher}
+         
+         \PY{n}{matcher} \PY{o}{=} \PY{n}{PhraseMatcher}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Create pattern Doc objects and add them to the matcher}
+         \PY{c+c1}{\PYZsh{} This is the faster version of: [nlp(country) for country in COUNTRIES]}
+         \PY{n}{patterns} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{pipe}\PY{p}{(}\PY{n}{COUNTRIES}\PY{p}{)}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}print(*patterns)}
+         
+         \PY{n}{matcher}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{COUNTRY}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{p}{[}\PY{o}{*}\PY{n}{patterns}\PY{p}{]}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Call the matcher on the test document and print the result}
+         \PY{n}{matches} \PY{o}{=} \PY{n}{matcher}\PY{p}{(}\PY{n}{doc}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{p}{[}\PY{n}{doc}\PY{p}{[}\PY{n}{start}\PY{p}{:}\PY{n}{end}\PY{p}{]} \PY{k}{for} \PY{n}{match\PYZus{}id}\PY{p}{,} \PY{n}{start}\PY{p}{,} \PY{n}{end} \PY{o+ow}{in} \PY{n}{matches}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[Czech Republic, Slovakia]
+
+    \end{Verbatim}
+
+    \hypertarget{extracting-coutries-and-relationships}{%
+\subsubsection{2.9 Extracting coutries and
+relationships}\label{extracting-coutries-and-relationships}}
+
+In the previous exercise, there was a script using spaCy's PhraseMatcher
+to find country names in text. Let's use that country matcher on a
+longer text, analyze the syntax and update the document's entities with
+the matched countries.
+
+\begin{itemize}
+\tightlist
+\item
+  Iterate over the matches and create a Span with the label ``GPE''
+  (geopolitical entity).
+\item
+  Overwrite the entities in doc.ents and add the matched span.
+\item
+  Get the matched span's root head token.
+\item
+  Print the text of the head token and the span.
+\end{itemize}
+
+\hypertarget{exercise-2.8-complete-the-code.}{%
+\paragraph{Exercise 2.8: Complete the
+code.}\label{exercise-2.8-complete-the-code.}}
 
     \begin{Verbatim}[commandchars=\\\{\}]
 {\color{incolor}In [{\color{incolor}18}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{matcher} \PY{k}{import} \PY{n}{PhraseMatcher}
+         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{tokens} \PY{k}{import} \PY{n}{Span}
+         \PY{k+kn}{import} \PY{n+nn}{json}
          
+         \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{data/countries.json}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{encoding}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{utf8}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+             \PY{n}{COUNTRIES} \PY{o}{=} \PY{n}{json}\PY{o}{.}\PY{n}{loads}\PY{p}{(}\PY{n}{f}\PY{o}{.}\PY{n}{read}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+         \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{data/country\PYZus{}text.txt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{encoding}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{utf8}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+             \PY{n}{TEXT} \PY{o}{=} \PY{n}{f}\PY{o}{.}\PY{n}{read}\PY{p}{(}\PY{p}{)}
+         
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{TEXT}\PY{p}{)}
+             
          \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{matcher} \PY{o}{=} \PY{n}{PhraseMatcher}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{p}{)}
+         \PY{n}{patterns} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{pipe}\PY{p}{(}\PY{n}{COUNTRIES}\PY{p}{)}\PY{p}{)}
+         \PY{n}{matcher}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{COUNTRY}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{k+kc}{None}\PY{p}{,} \PY{o}{*}\PY{n}{patterns}\PY{p}{)}
          
-         \PY{n}{text} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Upcoming iPhone X release date leaked as Apple reveals pre\PYZhy{}orders}\PY{l+s+s2}{\PYZdq{}}
+         \PY{c+c1}{\PYZsh{} Create a doc and reset existing entities}
+         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{n}{TEXT}\PY{p}{)}
+         \PY{n}{doc}\PY{o}{.}\PY{n}{ents} \PY{o}{=} \PY{p}{[}\PY{p}{]}
          
-         \PY{c+c1}{\PYZsh{} Process the text}
-         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{n}{text}\PY{p}{)}
-         
-         \PY{c+c1}{\PYZsh{} Iterate over the entities}
-         \PY{k}{for} \PY{n}{ent} \PY{o+ow}{in} \PY{n}{doc}\PY{o}{.}\PY{n}{ents}\PY{p}{:}
-             \PY{c+c1}{\PYZsh{} Print the entity text and label}
-             \PY{n+nb}{print}\PY{p}{(}\PY{n}{ent}\PY{o}{.}\PY{n}{text}\PY{p}{,} \PY{n}{ent}\PY{o}{.}\PY{n}{label\PYZus{}}\PY{p}{)}
-         
-         \PY{c+c1}{\PYZsh{} Get the span for \PYZdq{}iPhone X\PYZdq{}}
-         \PY{n}{iphone\PYZus{}x} \PY{o}{=} \PY{n}{doc}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{]}
-         
-         \PY{c+c1}{\PYZsh{} Print the span text}
-         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Missing entity:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{iphone\PYZus{}x}\PY{o}{.}\PY{n}{text}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-Apple ORG
-Missing entity: iPhone X
-
-    \end{Verbatim}
-
-    \hypertarget{using-the-matcher}{%
-\subsubsection{1.7 Using the matcher}\label{using-the-matcher}}
-
-Let's try spaCy's rule-based Matcher. You'll be using the example from
-the previous exercise and write a pattern that can match the phrase
-``iPhone X'' in the text.
-
-\begin{itemize}
-\tightlist
-\item
-  Import the Matcher from spacy.matcher.
-\item
-  Initialize it with the nlp object's shared vocab.
-\item
-  Create a pattern that matches the ``TEXT'' values of two tokens:
-  ``iPhone'' and ``X''.
-\item
-  Use the matcher.add method to add the pattern to the matcher.
-\item
-  Call the matcher on the doc and store the result in the variable
-  matches.
-\item
-  Iterate over the matches and get the matched span from the start to
-  the end index.
-\end{itemize}
-
-\hypertarget{exercise-1.4-write-matcher-for-iphone-followed-by-x.}{%
-\paragraph{Exercise 1.4: Write matcher for ``iPhone'' followed by
-``X''.}\label{exercise-1.4-write-matcher-for-iphone-followed-by-x.}}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}33}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
-         
-         \PY{c+c1}{\PYZsh{} Import the Matcher}
-         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{matcher} \PY{k}{import} \PY{n}{Matcher}
-         
-         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Upcoming iPhone X release date leaked as Apple reveals pre\PYZhy{}orders}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-         
-         \PY{c+c1}{\PYZsh{} Initialize the Matcher with the shared vocabulary}
-         \PY{n}{matcher} \PY{o}{=} \PY{n}{Matcher}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{p}{)}
-         
-         \PY{c+c1}{\PYZsh{} Exercise 1.4: Write matcher for \PYZdq{}iPhone\PYZdq{} followed by \PYZdq{}X\PYZdq{}}
-         \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
-         \PY{c+c1}{\PYZsh{} Create a pattern matching two tokens: \PYZdq{}iPhone\PYZdq{} and \PYZdq{}X\PYZdq{}}
-         \PY{n}{pattern} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{TEXT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{iPhone}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{TEXT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{X}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{]}\PY{p}{]}
-         
-         \PY{c+c1}{\PYZsh{} Add the pattern to the matcher}
-         \PY{n}{matcher}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{IPHONE\PYZus{}X\PYZus{}PATTERN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{pattern}\PY{p}{)}
-         
-         \PY{c+c1}{\PYZsh{} Use the matcher on the doc}
-         \PY{n}{matches} \PY{o}{=} \PY{n}{matcher}\PY{p}{(}\PY{n}{doc}\PY{p}{)}
-         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Matches:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{p}{[}\PY{n}{doc}\PY{p}{[}\PY{n}{start}\PY{p}{:}\PY{n}{end}\PY{p}{]}\PY{o}{.}\PY{n}{text} \PY{k}{for} \PY{n}{match\PYZus{}id}\PY{p}{,} \PY{n}{start}\PY{p}{,} \PY{n}{end} \PY{o+ow}{in} \PY{n}{matches}\PY{p}{]}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-Matches: ['iPhone X']
-
-    \end{Verbatim}
-
-    \hypertarget{writing-match-patterns}{%
-\subsubsection{1.8 Writing match
-patterns}\label{writing-match-patterns}}
-
-In this exercise, you'll practice writing more complex match patterns
-using different token attributes and operators.
-
-\textbf{Part 1}
-
-Write one pattern that only matches mentions of the full iOS versions:
-``iOS 7'', ``iOS 11'' and ``iOS 10''.
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}34}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
-         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{matcher} \PY{k}{import} \PY{n}{Matcher}
-         
-         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-         \PY{n}{matcher} \PY{o}{=} \PY{n}{Matcher}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{p}{)}
-         
-         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}
-             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{After making the iOS update you won}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{t notice a radical system\PYZhy{}wide }\PY{l+s+s2}{\PYZdq{}}
-             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{redesign: nothing like the aesthetic upheaval we got with iOS 7. Most of }\PY{l+s+s2}{\PYZdq{}}
-             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{iOS 11}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{s furniture remains the same as in iOS 10. But you will discover }\PY{l+s+s2}{\PYZdq{}}
-             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{some tweaks once you delve a little deeper.}\PY{l+s+s2}{\PYZdq{}}
-         \PY{p}{)}
-         
-         \PY{c+c1}{\PYZsh{} Write a pattern for full iOS versions (\PYZdq{}iOS 7\PYZdq{}, \PYZdq{}iOS 11\PYZdq{}, \PYZdq{}iOS 10\PYZdq{})}
-         \PY{n}{pattern} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{TEXT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{iOS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{IS\PYZus{}DIGIT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{k+kc}{True}\PY{p}{\PYZcb{}}\PY{p}{]}\PY{p}{]}
-         
-         \PY{c+c1}{\PYZsh{} Add the pattern to the matcher and apply the matcher to the doc}
-         \PY{n}{matcher}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{IOS\PYZus{}VERSION\PYZus{}PATTERN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{pattern}\PY{p}{)}
-         \PY{n}{matches} \PY{o}{=} \PY{n}{matcher}\PY{p}{(}\PY{n}{doc}\PY{p}{)}
-         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Total matches found:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{matches}\PY{p}{)}\PY{p}{)}
-         
-         \PY{c+c1}{\PYZsh{} Iterate over the matches and print the span text}
-         \PY{k}{for} \PY{n}{match\PYZus{}id}\PY{p}{,} \PY{n}{start}\PY{p}{,} \PY{n}{end} \PY{o+ow}{in} \PY{n}{matches}\PY{p}{:}
-             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Match found:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{doc}\PY{p}{[}\PY{n}{start}\PY{p}{:}\PY{n}{end}\PY{p}{]}\PY{o}{.}\PY{n}{text}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-Total matches found: 3
-Match found: iOS 7
-Match found: iOS 11
-Match found: iOS 10
-
-    \end{Verbatim}
-
-    \textbf{Part 2}
-
-Write one pattern that only matches forms of ``download'' (tokens with
-the lemma ``download''), followed by a token with the part-of-speech tag
-``PROPN'' (proper noun).
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}35}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
-         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{matcher} \PY{k}{import} \PY{n}{Matcher}
-         
-         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-         \PY{n}{matcher} \PY{o}{=} \PY{n}{Matcher}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{p}{)}
-         
-         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}
-             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{i downloaded Fortnite on my laptop and can}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{t open the game at all. Help? }\PY{l+s+s2}{\PYZdq{}}
-             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{so when I was downloading Minecraft, I got the Windows version where it }\PY{l+s+s2}{\PYZdq{}}
-             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is the }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{.zip}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ folder and I used the default program to unpack it... do }\PY{l+s+s2}{\PYZdq{}}
-             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{I also need to download Winzip?}\PY{l+s+s2}{\PYZdq{}}
-         \PY{p}{)}
-         
-         \PY{c+c1}{\PYZsh{} Write a pattern that matches a form of \PYZdq{}download\PYZdq{} plus proper noun}
-         \PY{n}{pattern} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{LEMMA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{download}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{POS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{PROPN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{]}\PY{p}{]}
-         
-         \PY{c+c1}{\PYZsh{} Add the pattern to the matcher and apply the matcher to the doc}
-         \PY{n}{matcher}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{DOWNLOAD\PYZus{}THINGS\PYZus{}PATTERN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{pattern}\PY{p}{)}
-         \PY{n}{matches} \PY{o}{=} \PY{n}{matcher}\PY{p}{(}\PY{n}{doc}\PY{p}{)}
-         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Total matches found:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{matches}\PY{p}{)}\PY{p}{)}
-         
-         \PY{c+c1}{\PYZsh{} Iterate over the matches and print the span text}
-         \PY{k}{for} \PY{n}{match\PYZus{}id}\PY{p}{,} \PY{n}{start}\PY{p}{,} \PY{n}{end} \PY{o+ow}{in} \PY{n}{matches}\PY{p}{:}
-             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Match found:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{doc}\PY{p}{[}\PY{n}{start}\PY{p}{:}\PY{n}{end}\PY{p}{]}\PY{o}{.}\PY{n}{text}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-Total matches found: 3
-Match found: downloaded Fortnite
-Match found: downloading Minecraft
-Match found: download Winzip
-
-    \end{Verbatim}
-
-    \hypertarget{exercise-1.5-write-matcher}{%
-\paragraph{Exercise 1.5: Write
-matcher}\label{exercise-1.5-write-matcher}}
-
-Write one pattern that matches adjectives (``ADJ'') followed by one or
-two ``NOUN''s (one noun and one optional noun).
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}39}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
-         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{matcher} \PY{k}{import} \PY{n}{Matcher}
-         
-         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-         \PY{n}{matcher} \PY{o}{=} \PY{n}{Matcher}\PY{p}{(}\PY{n}{nlp}\PY{o}{.}\PY{n}{vocab}\PY{p}{)}
-         
-         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}
-             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Features of the app include a beautiful design, smart search, automatic }\PY{l+s+s2}{\PYZdq{}}
-             \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{labels and optional voice responses.}\PY{l+s+s2}{\PYZdq{}}
-         \PY{p}{)}
-         
-         
-         \PY{c+c1}{\PYZsh{} Exercise 1.5: Write pattern and use matcher with pattern to find matches}
+         \PY{c+c1}{\PYZsh{} Exercise 2.8: Complete the code.}
          \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
          
-         \PY{c+c1}{\PYZsh{} Write a pattern for adjective plus one or two nouns}
-         \PY{n}{pattern} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{POS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ADJ}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{POS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NOUN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{POS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NOUN}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OP}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{?}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{]}\PY{p}{]}
+         \PY{c+c1}{\PYZsh{} Iterate over the matches}
+         \PY{k}{for} \PY{n}{match\PYZus{}id}\PY{p}{,} \PY{n}{start}\PY{p}{,} \PY{n}{end} \PY{o+ow}{in} \PY{n}{matcher}\PY{p}{(}\PY{n}{doc}\PY{p}{)}\PY{p}{:}
+             \PY{c+c1}{\PYZsh{} Create a Span with the label for \PYZdq{}GPE\PYZdq{}}
+             \PY{n}{span} \PY{o}{=} \PY{n}{Span}\PY{p}{(}\PY{n}{doc}\PY{p}{,} \PY{n}{start}\PY{p}{,} \PY{n}{end}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{GPE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
          
-         \PY{c+c1}{\PYZsh{} Add the pattern to the matcher and apply the matcher to the doc}
-         \PY{n}{matcher}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ADJECTIVE\PYZus{}AND\PYZus{}NOUN(S)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{pattern}\PY{p}{)}
-         \PY{n}{matches} \PY{o}{=} \PY{n}{matcher}\PY{p}{(}\PY{n}{doc}\PY{p}{)}
+             \PY{c+c1}{\PYZsh{} Overwrite the doc.ents and add the span}
+             \PY{n}{doc}\PY{o}{.}\PY{n}{ents} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{doc}\PY{o}{.}\PY{n}{ents}\PY{p}{)} \PY{o}{+} \PY{p}{[}\PY{n}{span}\PY{p}{]}
          
+             \PY{c+c1}{\PYZsh{} Get the span\PYZsq{}s root head token}
+             \PY{n}{span\PYZus{}root\PYZus{}head} \PY{o}{=} \PY{n}{span}\PY{o}{.}\PY{n}{root}\PY{o}{.}\PY{n}{head}
+             \PY{c+c1}{\PYZsh{} Print the text of the span root\PYZsq{}s head token and the span text}
+             \PY{n+nb}{print}\PY{p}{(}\PY{n}{span\PYZus{}root\PYZus{}head}\PY{o}{.}\PY{n}{text}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZgt{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{span}\PY{o}{.}\PY{n}{text}\PY{p}{)}
          
-         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Total matches found:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{matches}\PY{p}{)}\PY{p}{)}
-         
-         \PY{c+c1}{\PYZsh{} Iterate over the matches and print the span text}
-         \PY{k}{for} \PY{n}{match\PYZus{}id}\PY{p}{,} \PY{n}{start}\PY{p}{,} \PY{n}{end} \PY{o+ow}{in} \PY{n}{matches}\PY{p}{:}
-             \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Match found:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{doc}\PY{p}{[}\PY{n}{start}\PY{p}{:}\PY{n}{end}\PY{p}{]}\PY{o}{.}\PY{n}{text}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} Print the entities in the document}
+         \PY{n+nb}{print}\PY{p}{(}\PY{p}{[}\PY{p}{(}\PY{n}{ent}\PY{o}{.}\PY{n}{text}\PY{p}{,} \PY{n}{ent}\PY{o}{.}\PY{n}{label\PYZus{}}\PY{p}{)} \PY{k}{for} \PY{n}{ent} \PY{o+ow}{in} \PY{n}{doc}\PY{o}{.}\PY{n}{ents} \PY{k}{if} \PY{n}{ent}\PY{o}{.}\PY{n}{label\PYZus{}} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{GPE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{GPE count:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{p}{[}\PY{p}{(}\PY{n}{ent}\PY{o}{.}\PY{n}{text}\PY{p}{,} \PY{n}{ent}\PY{o}{.}\PY{n}{label\PYZus{}}\PY{p}{)} \PY{k}{for} \PY{n}{ent} \PY{o+ow}{in} \PY{n}{doc}\PY{o}{.}\PY{n}{ents} \PY{k}{if} \PY{n}{ent}\PY{o}{.}\PY{n}{label\PYZus{}} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{GPE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
     \begin{Verbatim}[commandchars=\\\{\}]
-Total matches found: 5
-Match found: beautiful design
-Match found: smart search
-Match found: automatic labels
-Match found: optional voice
-Match found: optional voice responses
+After the Cold War, the UN saw a radical expansion in its peacekeeping duties, taking on more missions in ten years than it had in the previous four decades.Between 1988 and 2000, the number of adopted Security Council resolutions more than doubled, and the peacekeeping budget increased more than tenfold. The UN negotiated an end to the Salvadoran Civil War, launched a successful peacekeeping mission in Namibia, and oversaw democratic elections in post-apartheid South Africa and post-Khmer Rouge Cambodia. In 1991, the UN authorized a US-led coalition that repulsed the Iraqi invasion of Kuwait. Brian Urquhart, Under-Secretary-General from 1971 to 1985, later described the hopes raised by these successes as a "false renaissance" for the organization, given the more troubled missions that followed. Though the UN Charter had been written primarily to prevent aggression by one nation against another, in the early 1990s the UN faced a number of simultaneous, serious crises within nations such as Somalia, Haiti, Mozambique, and the former Yugoslavia. The UN mission in Somalia was widely viewed as a failure after the US withdrawal following casualties in the Battle of Mogadishu, and the UN mission to Bosnia faced "worldwide ridicule" for its indecisive and confused mission in the face of ethnic cleansing. In 1994, the UN Assistance Mission for Rwanda failed to intervene in the Rwandan genocide amid indecision in the Security Council. Beginning in the last decades of the Cold War, American and European critics of the UN condemned the organization for perceived mismanagement and corruption. In 1984, the US President, Ronald Reagan, withdrew his nation's funding from UNESCO (the United Nations Educational, Scientific and Cultural Organization, founded 1946) over allegations of mismanagement, followed by Britain and Singapore. Boutros Boutros-Ghali, Secretary-General from 1992 to 1996, initiated a reform of the Secretariat, reducing the size of the organization somewhat. His successor, Kofi Annan (1997–2006), initiated further management reforms in the face of threats from the United States to withhold its UN dues. In the late 1990s and 2000s, international interventions authorized by the UN took a wider variety of forms. The UN mission in the Sierra Leone Civil War of 1991–2002 was supplemented by British Royal Marines, and the invasion of Afghanistan in 2001 was overseen by NATO. In 2003, the United States invaded Iraq despite failing to pass a UN Security Council resolution for authorization, prompting a new round of questioning of the organization's effectiveness. Under the eighth Secretary-General, Ban Ki-moon, the UN has intervened with peacekeepers in crises including the War in Darfur in Sudan and the Kivu conflict in the Democratic Republic of Congo and sent observers and chemical weapons inspectors to the Syrian Civil War. In 2013, an internal review of UN actions in the final battles of the Sri Lankan Civil War in 2009 concluded that the organization had suffered "systemic failure". One hundred and one UN personnel died in the 2010 Haiti earthquake, the worst loss of life in the organization's history. The Millennium Summit was held in 2000 to discuss the UN's role in the 21st century. The three day meeting was the largest gathering of world leaders in history, and culminated in the adoption by all member states of the Millennium Development Goals (MDGs), a commitment to achieve international development in areas such as poverty reduction, gender equality, and public health. Progress towards these goals, which were to be met by 2015, was ultimately uneven. The 2005 World Summit reaffirmed the UN's focus on promoting development, peacekeeping, human rights, and global security. The Sustainable Development Goals were launched in 2015 to succeed the Millennium Development Goals. In addition to addressing global challenges, the UN has sought to improve its accountability and democratic legitimacy by engaging more with civil society and fostering a global constituency. In an effort to enhance transparency, in 2016 the organization held its first public debate between candidates for Secretary-General. On 1 January 2017, Portuguese diplomat António Guterres, who previously served as UN High Commissioner for Refugees, became the ninth Secretary-General. Guterres has highlighted several key goals for his administration, including an emphasis on diplomacy for preventing conflicts, more effective peacekeeping efforts, and streamlining the organization to be more responsive and versatile to global needs.
+
+in --> Namibia
+in --> South Africa
+Africa --> Cambodia
+of --> Kuwait
+as --> Somalia
+Somalia --> Haiti
+Haiti --> Mozambique
+in --> Somalia
+for --> Rwanda
+Britain --> Singapore
+War --> Sierra Leone
+of --> Afghanistan
+invaded --> Iraq
+in --> Sudan
+of --> Congo
+earthquake --> Haiti
+[('Namibia', 'GPE'), ('South Africa', 'GPE'), ('Cambodia', 'GPE'), ('Kuwait', 'GPE'), ('Somalia', 'GPE'), ('Haiti', 'GPE'), ('Mozambique', 'GPE'), ('Somalia', 'GPE'), ('Rwanda', 'GPE'), ('Singapore', 'GPE'), ('Sierra Leone', 'GPE'), ('Afghanistan', 'GPE'), ('Iraq', 'GPE'), ('Sudan', 'GPE'), ('Congo', 'GPE'), ('Haiti', 'GPE')]
+GPE count: 16
+
+    \end{Verbatim}
+
+    \textbf{Hint.} You should get print:
+
+\begin{verbatim}
+in --> Namibia
+in --> South Africa
+Africa --> Cambodia
+of --> Kuwait
+as --> Somalia
+Somalia --> Haiti
+Haiti --> Mozambique
+in --> Somalia
+for --> Rwanda
+Britain --> Singapore
+War --> Sierra Leone
+of --> Afghanistan
+invaded --> Iraq
+in --> Sudan
+of --> Congo
+earthquake --> Haiti
+[('Namibia', 'GPE'), ('South Africa', 'GPE'), ('Cambodia', 'GPE'), ('Kuwait', 'GPE'), ('Somalia', 'GPE'), ('Haiti', 'GPE'), ('Mozambique', 'GPE'), ('Somalia', 'GPE'), ('Rwanda', 'GPE'), ('Singapore', 'GPE'), ('Sierra Leone', 'GPE'), ('Afghanistan', 'GPE'), ('Iraq', 'GPE'), ('Sudan', 'GPE'), ('Congo', 'GPE'), ('Haiti', 'GPE')]
+\end{verbatim}
+
+    \hypertarget{exercise-2.9}{%
+\paragraph{Exercise 2.9:}\label{exercise-2.9}}
+
+Do the same as in exercise 2.8, but use directly
+\texttt{en\_core\_web\_sm} entities. Does it find same amount of GPEs as
+code in exercise 2.8?
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{k+kn}{import} \PY{n+nn}{spacy}
+         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{matcher} \PY{k}{import} \PY{n}{PhraseMatcher}
+         \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{tokens} \PY{k}{import} \PY{n}{Span}
+         \PY{k+kn}{import} \PY{n+nn}{json}
+         
+         \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{data/countries.json}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{encoding}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{utf8}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+             \PY{n}{COUNTRIES} \PY{o}{=} \PY{n}{json}\PY{o}{.}\PY{n}{loads}\PY{p}{(}\PY{n}{f}\PY{o}{.}\PY{n}{read}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+         \PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{data/country\PYZus{}text.txt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{encoding}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{utf8}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+             \PY{n}{TEXT} \PY{o}{=} \PY{n}{f}\PY{o}{.}\PY{n}{read}\PY{p}{(}\PY{p}{)}
+         
+         \PY{n+nb}{print}\PY{p}{(}\PY{n}{TEXT}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Your code here:}
+         \PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+         \PY{n}{nlp} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{en\PYZus{}core\PYZus{}web\PYZus{}sm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{doc} \PY{o}{=} \PY{n}{nlp}\PY{p}{(}\PY{n}{TEXT}\PY{p}{)}
+         \PY{n}{ent} \PY{o}{=} \PY{n}{doc}\PY{o}{.}\PY{n}{ents}
+         
+         \PY{c+c1}{\PYZsh{} Print the entities in the document}
+         \PY{n+nb}{print}\PY{p}{(}\PY{p}{[}\PY{p}{(}\PY{n}{ent}\PY{o}{.}\PY{n}{text}\PY{p}{,} \PY{n}{ent}\PY{o}{.}\PY{n}{label\PYZus{}}\PY{p}{)} \PY{k}{for} \PY{n}{ent} \PY{o+ow}{in} \PY{n}{doc}\PY{o}{.}\PY{n}{ents} \PY{k}{if} \PY{n}{ent}\PY{o}{.}\PY{n}{label\PYZus{}} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{GPE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{GPE count:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{p}{[}\PY{p}{(}\PY{n}{ent}\PY{o}{.}\PY{n}{text}\PY{p}{,} \PY{n}{ent}\PY{o}{.}\PY{n}{label\PYZus{}}\PY{p}{)} \PY{k}{for} \PY{n}{ent} \PY{o+ow}{in} \PY{n}{doc}\PY{o}{.}\PY{n}{ents} \PY{k}{if} \PY{n}{ent}\PY{o}{.}\PY{n}{label\PYZus{}} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{GPE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+After the Cold War, the UN saw a radical expansion in its peacekeeping duties, taking on more missions in ten years than it had in the previous four decades.Between 1988 and 2000, the number of adopted Security Council resolutions more than doubled, and the peacekeeping budget increased more than tenfold. The UN negotiated an end to the Salvadoran Civil War, launched a successful peacekeeping mission in Namibia, and oversaw democratic elections in post-apartheid South Africa and post-Khmer Rouge Cambodia. In 1991, the UN authorized a US-led coalition that repulsed the Iraqi invasion of Kuwait. Brian Urquhart, Under-Secretary-General from 1971 to 1985, later described the hopes raised by these successes as a "false renaissance" for the organization, given the more troubled missions that followed. Though the UN Charter had been written primarily to prevent aggression by one nation against another, in the early 1990s the UN faced a number of simultaneous, serious crises within nations such as Somalia, Haiti, Mozambique, and the former Yugoslavia. The UN mission in Somalia was widely viewed as a failure after the US withdrawal following casualties in the Battle of Mogadishu, and the UN mission to Bosnia faced "worldwide ridicule" for its indecisive and confused mission in the face of ethnic cleansing. In 1994, the UN Assistance Mission for Rwanda failed to intervene in the Rwandan genocide amid indecision in the Security Council. Beginning in the last decades of the Cold War, American and European critics of the UN condemned the organization for perceived mismanagement and corruption. In 1984, the US President, Ronald Reagan, withdrew his nation's funding from UNESCO (the United Nations Educational, Scientific and Cultural Organization, founded 1946) over allegations of mismanagement, followed by Britain and Singapore. Boutros Boutros-Ghali, Secretary-General from 1992 to 1996, initiated a reform of the Secretariat, reducing the size of the organization somewhat. His successor, Kofi Annan (1997–2006), initiated further management reforms in the face of threats from the United States to withhold its UN dues. In the late 1990s and 2000s, international interventions authorized by the UN took a wider variety of forms. The UN mission in the Sierra Leone Civil War of 1991–2002 was supplemented by British Royal Marines, and the invasion of Afghanistan in 2001 was overseen by NATO. In 2003, the United States invaded Iraq despite failing to pass a UN Security Council resolution for authorization, prompting a new round of questioning of the organization's effectiveness. Under the eighth Secretary-General, Ban Ki-moon, the UN has intervened with peacekeepers in crises including the War in Darfur in Sudan and the Kivu conflict in the Democratic Republic of Congo and sent observers and chemical weapons inspectors to the Syrian Civil War. In 2013, an internal review of UN actions in the final battles of the Sri Lankan Civil War in 2009 concluded that the organization had suffered "systemic failure". One hundred and one UN personnel died in the 2010 Haiti earthquake, the worst loss of life in the organization's history. The Millennium Summit was held in 2000 to discuss the UN's role in the 21st century. The three day meeting was the largest gathering of world leaders in history, and culminated in the adoption by all member states of the Millennium Development Goals (MDGs), a commitment to achieve international development in areas such as poverty reduction, gender equality, and public health. Progress towards these goals, which were to be met by 2015, was ultimately uneven. The 2005 World Summit reaffirmed the UN's focus on promoting development, peacekeeping, human rights, and global security. The Sustainable Development Goals were launched in 2015 to succeed the Millennium Development Goals. In addition to addressing global challenges, the UN has sought to improve its accountability and democratic legitimacy by engaging more with civil society and fostering a global constituency. In an effort to enhance transparency, in 2016 the organization held its first public debate between candidates for Secretary-General. On 1 January 2017, Portuguese diplomat António Guterres, who previously served as UN High Commissioner for Refugees, became the ninth Secretary-General. Guterres has highlighted several key goals for his administration, including an emphasis on diplomacy for preventing conflicts, more effective peacekeeping efforts, and streamlining the organization to be more responsive and versatile to global needs.
+
+[('Namibia', 'GPE'), ('South Africa', 'GPE'), ('US', 'GPE'), ('Kuwait', 'GPE'), ('Somalia', 'GPE'), ('Haiti', 'GPE'), ('Yugoslavia', 'GPE'), ('Somalia', 'GPE'), ('US', 'GPE'), ('the Battle of Mogadishu', 'GPE'), ('Bosnia', 'GPE'), ('US', 'GPE'), ('Britain', 'GPE'), ('Singapore', 'GPE'), ('the United States', 'GPE'), ('Afghanistan', 'GPE'), ('the United States', 'GPE'), ('Iraq', 'GPE'), ('Sudan', 'GPE'), ('the Democratic Republic of Congo', 'GPE'), ('Haiti', 'GPE'), ('Guterres', 'GPE')]
+GPE count: 22
 
     \end{Verbatim}
 
@@ -922,56 +1189,61 @@ Match found: optional voice responses
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  What is spaCy?
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Niinkuin jokaisen muunkin aihepiiriin työstämisen helpottamiseksi
-    löytyy kirjastot, löytyy myös luonnollisen kielen käsittelyynkin.
-    Kirjaston nimi on spaCy.
-  \item
-    SpaCy on siis luonnollisen kielen käsittelyyn suunniteltu kirjasto.
-    Se sisältää paljon funktoita esimerkiksi datan käsittelyyn. SpaCy
-    helpottaa ja nopeuttaa huomattavasti luonnollisen kielen käsittelyä
-    python-ympäristössä.
-  \end{itemize}
+  Print Finnish stop word. Is it longer or shorter than English stop
+  word list?
 \item
-  Why you are not able to repeat parts 1.4 - 1.8 with Finnish?
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Suomen kielelle ei ole ainakaan vielä olemassa pipeline-pakettia
-    luotuna. Kukaan ei ole ottanut sitä työkseen.
-  \end{itemize}
+  What is \texttt{"word\ vector"}? And how many features spaCy
+  \texttt{"word\ vector"} has?
 \item
-  What's not included in a model package that you can load into spaCy?
-
-  \begin{itemize}
-  \tightlist
-  \item
-    A meta file including the language, pipeline and license.
-  \item
-    Binary weights to make statistical predictions.
-  \item
-    \textbf{The labelled data that the model was trained on.}
-    \textless{}= Ei kuulu
-  \item
-    Strings of the model's vocabulary and their hashes.
-  \end{itemize}
+  What is ``bag of words''?
 \item
-  What is \texttt{nlp}?
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{nlp} funktio luo tekstistä (doc) objektin ja tokenoi
-    tekstin.
-  \end{itemize}
+  What is lemma? What about lemmatization?
+\item
+  Why spaCy does not use stemming?
 \end{enumerate}
 
     \emph{Your answers here\ldots{}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{k+kn}{from} \PY{n+nn}{spacy}\PY{n+nn}{.}\PY{n+nn}{lang}\PY{n+nn}{.}\PY{n+nn}{fi} \PY{k}{import} \PY{n}{Finnish}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{spaCy Version: }\PY{l+s+si}{\PYZpc{}s}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{spacy}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{p}{)}\PY{p}{)}
+         \PY{n}{english\PYZus{}stopwords} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{lang}\PY{o}{.}\PY{n}{en}\PY{o}{.}\PY{n}{stop\PYZus{}words}\PY{o}{.}\PY{n}{STOP\PYZus{}WORDS}
+         \PY{n}{finnish\PYZus{}stopwords} \PY{o}{=} \PY{n}{spacy}\PY{o}{.}\PY{n}{lang}\PY{o}{.}\PY{n}{fi}\PY{o}{.}\PY{n}{stop\PYZus{}words}\PY{o}{.}\PY{n}{STOP\PYZus{}WORDS}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of english stop words: }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{n+nb}{len}\PY{p}{(}\PY{n}{english\PYZus{}stopwords}\PY{p}{)}\PY{p}{)}
+         \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of finnish stop words: }\PY{l+s+si}{\PYZpc{}d}\PY{l+s+s1}{\PYZsq{}} \PY{o}{\PYZpc{}} \PY{n+nb}{len}\PY{p}{(}\PY{n}{finnish\PYZus{}stopwords}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+spaCy Version: 3.0.5
+Number of english stop words: 326
+Number of finnish stop words: 822
+
+    \end{Verbatim}
+
+    \begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Ylempää nähdään, että suomalaisia stop wordeja on enemmän.
+\item
+  Sanavektori kuvaa sanojen ominaisuuksia ja se koostuu pienistä
+  luvuista. Koneiden on helpompi käsitellä sanavektoreita ja tunnistaa
+  siitä sanojen ominaisuudet. Sanavektori on 300 ulotteinen, mutta se
+  voidaan muuttaa kaksiulotteiseksi käyttämällä PCA:ta.
+\item
+  Luonnollisen kielen käsittelyssä käytettävä menetelmä. Siinä muutetaan
+  teksti ns. osiin ja tarkastellaan kunkin sanan esiintymistiheyttä ja
+  luokkaa. Tämän avulla voidaan totteuttaa koneoppimista ja
+  luokittetelua myöhemmin datan (tekstin) analysoimisessa.
+\item
+  Lemma on sanan perusmuoto. Lemmatilazion on taas yksi NLP:ssä datan
+  (tekstin) käsittelyssä käytettävä menetelmä. Se palauttaa sanan
+  perusmuodon, jotta koneoppivat algoritmin osaisivat käsitellä tekstiä
+  paremmin.
+\item
+  SpaCy käyttää vain lemmatizingiä. Varmaan siksi, koska lemmatizing on
+  parempi algoritmi ajamaan saman asian.
+\end{enumerate}
 
 
     % Add a bibliography block to the postdoc
